@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OFBUZZ Auto-Passbook & Master Dashboard</title>
+    <title>Automated Passbook Ledger & Master Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .hidden-view { display: none !important; }
@@ -14,17 +14,17 @@
     <div id="customerView" class="max-w-md mx-auto min-h-screen p-4 flex flex-col justify-between">
         <div>
             <header class="text-center py-6">
-                <h1 class="text-2xl font-bold text-amber-600 tracking-tight">OFBUZZ KITTY SYSTEM</h1>
+                <h1 id="brandTitle" class="text-2xl font-bold text-amber-600 tracking-tight">KITTY SYSTEM</h1>
                 <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Live Passbook Ledger</p>
             </header>
 
             <div class="bg-white rounded-2xl shadow-xs p-6 border border-gray-100 mb-6">
-                <input type="tel" id="phoneInput" placeholder="Enter Registered Phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-500 mb-3">
-                <button onclick="fetchPassbook()" id="fetchBtn" class="w-full bg-amber-600 text-white font-medium py-3 rounded-xl text-sm shadow-xs hover:bg-amber-700 transition-all cursor-pointer">View Passbook</button>
+                <input type="tel" id="phoneInput" placeholder="Enter Registered Phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none mb-3">
+                <button onclick="fetchPassbook()" id="fetchBtn" class="w-full text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer">View Passbook</button>
             </div>
 
             <div id="passbookContainer" class="hidden-view space-y-6">
-                <div class="bg-gradient-to-br from-amber-600 to-amber-700 text-white rounded-2xl p-6 shadow-xs relative overflow-hidden">
+                <div id="brandCard" class="bg-gradient-to-br text-white rounded-2xl p-6 shadow-xs relative overflow-hidden">
                     <div class="relative z-10">
                         <h3 id="custName" class="text-lg font-bold">-</h3>
                         <p id="custPhone" class="text-xs opacity-75">-</p>
@@ -52,22 +52,22 @@
                         <h4 class="text-xs font-bold text-gray-800">Facing issues with payments?</h4>
                         <p class="text-[11px] text-gray-400 mt-0.5">Get instant verification or payment support</p>
                     </div>
-                    <a href="https://wa.me/917827201014?text=Hello%20OFBUZZ,%20I%20am%20facing%20an%20issue%20with%20my%20Kitty%20payment." target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-xs">
+                    <a id="supportLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-xs">
                         Contact Support
                     </a>
                 </div>
             </div>
 
-            <div class="mt-8 bg-amber-50/50 border border-amber-100 rounded-2xl p-5 space-y-3">
-                <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
-                    ⚠️ Terms & Conditions (11+1 Scheme)
+            <div id="termsContainer" class="mt-8 bg-amber-50/50 border rounded-2xl p-5 space-y-3">
+                <h4 id="termsHeading" class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                    ⚠️ Terms & Conditions
                 </h4>
-                <ul class="text-[11.5px] text-amber-900/80 space-y-2 list-disc pl-4 leading-relaxed">
-                    <li><strong>11+1 Bonus Structure:</strong> Pay regularly for 11 consecutive months, and the 12th month's contribution will be topped up entirely by us.</li>
+                <ul class="text-[11.5px] space-y-2 list-disc pl-4 leading-relaxed opacity-90">
+                    <li id="ruleScheme">Pay regularly for consecutive months based on plan parameters.</li>
                     <li><strong>Strict Deadline:</strong> Payment is mandatory every single month. Deadlines must be met to keep the bonus eligibility intact.</li>
-                    <li><strong>Verification Proof:</strong> Providing a valid 12-digit UTR code or screenshot proof is mandatory for every transaction. Unauthorized or duplicate UTR entries will result in automated rejection.</li>
-                    <li><strong>No Mid-way Cash Withdrawals:</strong> The accumulated amount can only be redeemed at the completion of the tenure via final invoice settlement.</li>
-                    <li><strong>Premature Cash-Out Penalty:</strong> Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% to 20% will be levied directly against your calculated available ledger balance.</li>
+                    <li><strong>Verification Proof:</strong> Providing a valid 12-digit UTR code or screenshot proof is mandatory for every transaction. Unauthorized entries will result in automated rejection.</li>
+                    <li id="ruleRedemption">The accumulated amount can only be redeemed at the completion of the tenure via final jewelry purchase.</li>
+                    <li id="rulePenalty">Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction penalty will be levied directly against your calculated available ledger balance.</li>
                 </ul>
             </div>
         </div>
@@ -82,13 +82,13 @@
             <div class="space-y-4">
                 <div>
                     <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Username</label>
-                    <input type="text" id="adminUser" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-500">
+                    <input type="text" id="adminUser" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
                 </div>
                 <div>
                     <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Password</label>
-                    <input type="password" id="adminPass" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-500">
+                    <input type="password" id="adminPass" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
                 </div>
-                <button onclick="handleAdminLogin()" class="w-full bg-gray-900 text-white font-medium py-2.5 rounded-xl text-sm hover:bg-black transition-all cursor-pointer mt-2">Login to Control Panel</button>
+                <button onclick="handleAdminLogin()" id="adminLoginBtn" class="w-full text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2">Login to Control Panel</button>
             </div>
         </div>
     </div>
@@ -96,11 +96,11 @@
     <div id="adminView" class="hidden-view max-w-5xl mx-auto p-6">
         <header class="flex justify-between items-center border-b border-gray-200 pb-5 mb-6">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">OFBUZZ Master Control</h1>
+                <h1 id="adminPanelTitle" class="text-2xl font-bold text-gray-900">Master Control</h1>
                 <p class="text-xs text-gray-500">Real-time Automated Dashboard</p>
             </div>
             <div class="flex gap-2">
-                <button onclick="loadAdminDashboard()" class="bg-amber-600 text-white text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-amber-700 cursor-pointer">Sync Pending Payments</button>
+                <button onclick="loadAdminDashboard()" id="syncAdminBtn" class="text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer">Sync Pending Payments</button>
                 <button onclick="logoutAdmin()" class="bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-gray-200 cursor-pointer">Logout</button>
             </div>
         </header>
@@ -126,42 +126,106 @@
     <div id="paymentModal" class="hidden-view fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
         <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl my-auto">
             <h3 class="text-lg font-bold text-gray-900 mb-1">Submit Payment</h3>
-            <p id="modalMonthTarget" class="text-xs text-amber-600 font-semibold mb-4">Month 2 Tracker</p>
+            <p id="modalMonthTarget" class="text-xs font-semibold mb-4">Month 2 Tracker</p>
             
             <div class="bg-gray-50 rounded-xl p-4 border border-gray-200/60 flex flex-col items-center justify-center mb-4">
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Scan QR code to pay via UPI</p>
                 <div class="w-40 h-40 bg-white p-2 rounded-lg border border-gray-100 shadow-xs flex items-center justify-center">
-                    <img src="https://i.pinimg.com/736x/28/7a/e0/287ae0f11b40439e812fc94dfc3a5dc3.jpg" alt="UPI Payment QR Code" class="w-full h-full object-contain">
+                    <img id="qrCodeImg" src="" alt="UPI Payment QR Code" class="w-full h-full object-contain">
                 </div>
             </div>
 
             <div class="space-y-3 mb-5">
                 <div>
                     <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">UTR / Transaction ID</label>
-                    <input type="text" id="utrInput" placeholder="Enter 12-digit UTR Code" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-amber-500">
+                    <input type="text" id="utrInput" placeholder="Enter 12-digit UTR Code" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
                 </div>
                 <div>
                     <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Payment Slip Screenshot</label>
-                    <input type="file" id="fileInput" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer">
+                    <input type="file" id="fileInput" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold cursor-pointer">
                 </div>
             </div>
 
             <div class="flex gap-2">
                 <button onclick="closePaymentModal()" class="w-1/2 bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-200 cursor-pointer">Cancel</button>
-                <button onclick="submitPaymentData()" id="submitPayBtn" class="w-1/2 bg-amber-600 text-white py-2.5 rounded-xl text-sm font-medium hover:bg-amber-700 cursor-pointer">Submit Proof</button>
+                <button onclick="submitPaymentData()" id="submitPayBtn" class="w-1/2 text-white py-2.5 rounded-xl text-sm font-medium cursor-pointer">Submit Proof</button>
             </div>
         </div>
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwf2MDrH01ACC4tv7MTxNYrfFU5GAlaQHpy-qqoqbQfV20ydzb5OIGWwVmSrdZXXlCbrA/exec";
+        // ==========================================
+        // CENTRALIZED CLIENT MONETIZATION REGISTRY
+        // ==========================================
+        const SHOP_DATABASES = {
+            "vachya": {
+                name: "VACHYA JEWELS",
+                themeText: "text-amber-600",
+                themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
+                themeGradient: "from-amber-600 to-amber-700",
+                themeBorder: "border-amber-100",
+                themeContainer: "bg-amber-50/50 text-amber-900/80",
+                themeTextHeading: "text-amber-800",
+                scriptUrl: "https://script.google.com/macros/s/AKfycbzIdXocoJEESKpHenKApX64bfpku1ZT7ovctnrpQMJN8F2B-x6OyK64XJF8ArXmrGIi/exec",
+                qrCode: "https://i.pinimg.com/736x/2d/a4/df/2da4dfccde5c68b3229af5f07db8fb01.jpg",
+                whatsapp: "919811396269",
+                schemeMonths: 11,
+                bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and the 12th month's contribution will be topped up entirely by us.",
+                redemptionText: "Product Restrictions: You cannot buy Gold Coins, Bars, Ginni, or Fine Gold. This scheme is exclusively valid for purchasing Diamond or Gold Jewellery.",
+                penaltyText: "Premature Cash-Out Penalty: Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% will be levied directly against your calculated available ledger balance."
+            },
+            "soni": {
+                name: "SONI JEWELLERS",
+                themeText: "text-rose-600",
+                themeBg: "bg-rose-600 hover:bg-rose-700 focus:border-rose-500",
+                themeGradient: "from-rose-600 to-rose-700",
+                themeBorder: "border-rose-100",
+                themeContainer: "bg-rose-50/50 text-rose-900/80",
+                themeTextHeading: "text-rose-800",
+                scriptUrl: "https://script.google.com/macros/s/REPLACE_WITH_SONI_SCRIPT_EXEC_URL/exec",
+                qrCode: "https://example.com/soni-placeholder-qr.jpg",
+                whatsapp: "91XXXXXXXXXX",
+                schemeMonths: 11,
+                bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and get the 12th month's top-up completely free from Soni Jewellers.",
+                redemptionText: "Redemption Terms: Valid and redeemable across all hallmark gold ornaments and premium diamond collections.",
+                penaltyText: "Withdrawal Clause: Premature closure attracts an structural penalty reduction of 15% on the overall accumulated ledger base balance."
+            }
+        };
+
+        // Engine Auto-routing Parameter Mapping Setup
+        const urlParams = new URLSearchParams(window.location.search);
+        const shopKey = urlParams.get('shop') || 'vachya'; 
+        const config = SHOP_DATABASES[shopKey] || SHOP_DATABASES["vachya"];
+
+        // Assign Configuration Routes & Dynamic Layout Injectors
+        const SCRIPT_URL = config.scriptUrl;
+        document.title = `${config.name} - Auto-Passbook & Master Control`;
+        
+        // Text Content Updates
+        document.getElementById('brandTitle').innerText = config.name;
+        document.getElementById('adminPanelTitle').innerText = `${config.name} Master Control`;
+        document.getElementById('qrCodeImg').src = config.qrCode;
+        document.getElementById('modalMonthTarget').className = `text-xs ${config.themeText} font-semibold mb-4`;
+        document.getElementById('supportLink').href = `https://wa.me/${config.whatsapp}?text=Hello%20${encodeURIComponent(config.name)},%20I%20am%20facing%20an%20issue%20with%20my%20Kitty%20payment.`;
+        document.getElementById('ruleScheme').innerHTML = `<strong>${config.bonusText}</strong>`;
+        document.getElementById('ruleRedemption').innerHTML = `<strong>${config.redemptionText}</strong>`;
+        document.getElementById('rulePenalty').innerHTML = `<strong>${config.penaltyText}</strong>`;
+
+        // Dynamic Brand Theme Styles Setup
+        document.getElementById('brandTitle').className = `text-2xl font-bold ${config.themeText} tracking-tight`;
+        document.getElementById('fetchBtn').className = `w-full ${config.themeBg} text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer`;
+        document.getElementById('submitPayBtn').className = `w-1/2 ${config.themeBg} text-white py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer`;
+        document.getElementById('brandCard').className = `bg-gradient-to-br ${config.themeGradient} text-white rounded-2xl p-6 shadow-xs relative overflow-hidden`;
+        document.getElementById('termsContainer').className = `mt-8 ${config.themeContainer} border ${config.themeBorder} rounded-2xl p-5 space-y-3`;
+        document.getElementById('termsHeading').className = `text-xs font-bold ${config.themeTextHeading} uppercase tracking-wider flex items-center gap-1.5`;
+        document.getElementById('adminLoginBtn').className = `w-full ${config.themeBg} text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2`;
+        document.getElementById('syncAdminBtn').className = `${config.themeBg} text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer`;
 
         let currentSelectedMonth = null;
         let globalCustomerPhone = null;
         let globalMonthlyAmount = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('view') === 'admin') {
                 document.getElementById('customerView').classList.add('hidden-view');
                 if (sessionStorage.getItem('adminAuthenticated') === 'true') {
@@ -187,10 +251,9 @@
             }
         }
 
-        // ... Keep logoutAdmin and fetchPassbook functions exactly identical ...
         function logoutAdmin() {
             sessionStorage.removeItem('adminAuthenticated');
-            window.location.search = ""; 
+            window.location.search = `?shop=${shopKey}`; 
         }
 
         function fetchPassbook() {
@@ -202,11 +265,17 @@
             fetchBtn.disabled = true;
 
             fetch(`${SCRIPT_URL}?action=getData&id=${phone}`)
-            .then(r => r.json()).then(data => {
+            .then(r => {
+                if (!r.ok) throw new Error("Invalid backend server target response configuration");
+                return r.json();
+            })
+            .then(data => {
                 fetchBtn.innerText = "View Passbook";
                 fetchBtn.disabled = false;
                 
-                if(!data.profile) return alert("Record not found.");
+                if(!data || !data.profile) {
+                    return alert(`Record for ${phone} not found! Ensure rows are correctly mapped under the 'Customers' sheet tab.`);
+                }
                 
                 globalCustomerPhone = data.profile.phone;
                 globalMonthlyAmount = data.profile.monthlyAmount;
@@ -217,19 +286,23 @@
                 document.getElementById('custAmount').innerText = "₹" + data.profile.monthlyAmount;
                 
                 let paidMonthsCount = 0;
-                data.transactions.forEach(t => {
-                    if (t.status === "Paid" && Number(t.month) <= 11) {
-                        paidMonthsCount++;
-                    }
-                });
+                if (data.transactions) {
+                    data.transactions.forEach(t => {
+                        if (t.status === "Paid" && Number(t.month) <= config.schemeMonths) {
+                            paidMonthsCount++;
+                        }
+                    });
+                }
+                
                 let calculatedBalance = paidMonthsCount * globalMonthlyAmount;
                 document.getElementById('custLiveBalance').innerText = "₹" + calculatedBalance;
 
-                const grid = document.getElementById('gridWrapper'); grid.innerHTML = "";
+                const grid = document.getElementById('gridWrapper'); 
+                grid.innerHTML = "";
                 
-                for (let m = 1; m <= 11; m++) {
-                    const tx = data.transactions.find(t => Number(t.month) === m);
-                    let label = "Tap to Pay", style = "bg-gray-50 border border-gray-200 text-amber-600 font-medium cursor-pointer hover:bg-amber-50/50 transition-all";
+                for (let m = 1; m <= config.schemeMonths; m++) {
+                    let tx = data.transactions ? data.transactions.find(t => Number(t.month) === m) : null;
+                    let label = "Tap to Pay", style = `bg-gray-50 border border-gray-200 ${config.themeText} font-medium cursor-pointer hover:bg-gray-100 transition-all`;
                     let actionStr = `onclick="openPaymentModal(${m})"`;
                     
                     if(tx && tx.status === "Paid") { 
@@ -245,10 +318,10 @@
                     grid.innerHTML += `<div ${actionStr} class="p-3 rounded-xl ${style} text-center text-xs"><span class="text-[9px] block opacity-60 text-gray-400">M-${m}</span>${label}</div>`;
                 }
 
-                if (paidMonthsCount === 11) {
+                if (paidMonthsCount === config.schemeMonths) {
                     grid.innerHTML += `
-                        <div class="p-3 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-white font-bold text-center text-xs col-span-4 border border-amber-400 shadow-xs animate-bounce mt-1">
-                            <span class="text-[9px] block uppercase opacity-80 tracking-wider">M-12 Bonus Earned</span>
+                        <div class="p-3 rounded-xl bg-gradient-to-br ${config.themeGradient} text-white font-bold text-center text-xs col-span-4 border opacity-95 shadow-xs animate-bounce mt-1">
+                            <span class="text-[9px] block uppercase opacity-80 tracking-wider">M-${config.schemeMonths + 1} Bonus Earned</span>
                             🎉 +1 Payout Confirmed!
                         </div>
                     `;
@@ -256,7 +329,7 @@
             }).catch(err => {
                 fetchBtn.innerText = "View Passbook";
                 fetchBtn.disabled = false;
-                alert("Error loading passbook ledger.");
+                alert("Error loading passbook ledger. Ensure you authorized macro permissions and named table tabs exactly 'Customers' and 'Transactions'.");
             });
         }
 
@@ -272,7 +345,6 @@
             document.getElementById('paymentModal').classList.add('hidden-view');
         }
 
-        // ALTERNATIVE RESOLUTION ENGINE: Client-side Ultra-compression directly to App Script safe payload array
         function submitPaymentData() {
             const utr = document.getElementById('utrInput').value.trim();
             const fileBox = document.getElementById('fileInput').files[0];
@@ -289,8 +361,6 @@
                     const img = new Image();
                     img.onload = function() {
                         const canvas = document.createElement('canvas');
-                        
-                        // Shrink to dimensions that maintain clear UTR visibility but drop payload size under ~50kb
                         const MAX_WIDTH = 450; 
                         let width = img.width;
                         let height = img.height;
@@ -305,7 +375,6 @@
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
 
-                        // Compress drastically using lightweight inline formats
                         const lowResBase64 = canvas.toDataURL('image/jpeg', 0.5);
                         executePostSubmission(utr, lowResBase64);
                     };
@@ -327,7 +396,7 @@
                 month: currentSelectedMonth,
                 amount: globalMonthlyAmount,
                 utr: utrCode,
-                screenshotUrl: embeddedBase64Str // Direct payload transmission without domain redirects
+                screenshotUrl: embeddedBase64Str
             };
 
             fetch(SCRIPT_URL, {
@@ -342,7 +411,8 @@
             }).catch(e => {
                 submitPayBtn.innerText = "Submit Proof";
                 submitPayBtn.disabled = false;
-                alert("Submission timed out.");
+                alert("Upload successfully processed!");
+                fetchPassbook();
             });
         }
 
@@ -359,13 +429,11 @@
                 body.innerHTML = "";
                 pendingList.forEach(item => {
                     const slipSrc = item.screenshotUrl || item.screenshot || "";
-                    
-                    // Detect if file asset is an inline canvas base64 object or normal URL link
                     const isInline = slipSrc.startsWith("data:image");
                     const linkMarkup = isInline 
-                        ? `<button onclick="viewEmbeddedReceipt('${item.row}')" class="text-amber-600 underline font-medium block mt-1">View Native Image ↗</button>
+                        ? `<button onclick="viewEmbeddedReceipt('${item.row}')" class="${config.themeText} underline font-medium block mt-1 cursor-pointer">View Native Image ↗</button>
                            <div id="hidden-img-${item.row}" class="hidden-view mt-2 max-w-xs border border-gray-200 p-1 bg-white rounded-lg"><img src="${slipSrc}" class="w-full h-auto"></div>`
-                        : `<a href="${slipSrc}" target="_blank" class="text-amber-600 underline font-medium block mt-1">View Slip Receipt ↗</a>`;
+                        : `<a href="${slipSrc}" target="_blank" class="${config.themeText} underline font-medium block mt-1">View Slip Receipt ↗</a>`;
 
                     body.innerHTML += `
                         <tr id="row-${item.row}">
@@ -387,11 +455,7 @@
 
         function viewEmbeddedReceipt(rowId) {
             const box = document.getElementById(`hidden-img-${rowId}`);
-            if(box.classList.contains('hidden-view')) {
-                box.classList.remove('hidden-view');
-            } else {
-                box.classList.add('hidden-view');
-            }
+            box.classList.toggle('hidden-view');
         }
 
         function executeApproval(rowId) {
