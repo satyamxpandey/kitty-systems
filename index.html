@@ -3,537 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jewelry Customer Ledger & Management Portal</title>
+    <title>Abhushan Mandir Jewellers - Account Ledger</title>
     <style>
-        :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --accent-gold: #d4af37;
-            --text-main: #ffffff;
-            --text-muted: #aaaaaa;
-            --border-color: #333333;
-            --success-color: #2e7d32;
-            --pending-color: #c5a059;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-        }
-
-        .header h1 {
-            color: var(--accent-gold);
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .header p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .tab-navigation {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            background: #151515;
-            padding: 5px;
-            border-radius: 8px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            background: var(--accent-gold);
-            color: var(--bg-color);
-            font-weight: 600;
-        }
-
-        .view-panel {
-            display: none;
-        }
-
-        .view-panel.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-            font-size: 13px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            background: #151515;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: var(--text-main);
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--accent-gold);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--accent-gold);
-            color: var(--bg-color);
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: opacity 0.3s;
-            margin-top: 10px;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        .profile-card {
-            background: #151515;
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .profile-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .profile-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .profile-label {
-            color: var(--text-muted);
-        }
-
-        .profile-value {
-            font-weight: 600;
-        }
-
-        .table-container {
-            overflow-x: auto;
-            margin-top: 15px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .status-badge {
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-paid {
-            background: rgba(46, 125, 50, 0.2);
-            color: #81c784;
-        }
-
-        .status-pending {
-            background: rgba(197, 160, 89, 0.2);
-            color: #ffd54f;
-        }
-
-        .admin-item {
-            background: #151515;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
-        .admin-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .btn-approve {
-            background: var(--success-color);
-            color: white;
-            font-size: 13px;
-            padding: 8px;
-        }
-
-        .link-view {
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        .loader {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: var(--accent-gold);
-            font-weight: 500;
-        }
+        :root { --bg-color: #121212; --card-bg: #1e1e1e; --accent-gold: #d4af37; --text-main: #ffffff; --text-muted: #aaaaaa; --border-color: #333333; --success-color: #2e7d32; --pending-color: #c5a059; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 600px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); padding: 25px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        .header { text-align: center; margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
+        .header h1 { color: var(--accent-gold); font-size: 24px; font-weight: 600; letter-spacing: 1px; }
+        .header p { color: var(--text-muted); font-size: 14px; margin-top: 5px; }
+        .tab-navigation { display: flex; gap: 10px; margin-bottom: 20px; background: #151515; padding: 5px; border-radius: 8px; }
+        .tab-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 10px; cursor: pointer; border-radius: 6px; font-weight: 500; transition: all 0.3s ease; }
+        .tab-btn.active { background: var(--accent-gold); color: var(--bg-color); font-weight: 600; }
+        .view-panel { display: none; }
+        .view-panel.active { display: block; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; color: var(--text-muted); margin-bottom: 5px; font-size: 13px; }
+        input { width: 100%; padding: 12px; background: #151515; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); font-size: 14px; outline: none; }
+        input:focus { border-color: var(--accent-gold); }
+        .btn { width: 100%; padding: 12px; background: var(--accent-gold); color: var(--bg-color); border: none; border-radius: 6px; font-weight: 600; font-size: 15px; cursor: pointer; margin-top: 10px; }
+        .profile-card { background: #151515; border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .profile-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+        .profile-label { color: var(--text-muted); }
+        .profile-value { font-weight: 600; }
+        .table-container { overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { color: var(--text-muted); font-weight: 500; }
+        .status-badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .status-paid { background: rgba(46, 125, 50, 0.2); color: #81c784; }
+        .status-pending { background: rgba(197, 160, 89, 0.2); color: #ffd54f; }
+        .admin-item { background: #151515; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+        .btn-approve { background: var(--success-color); color: white; font-size: 13px; padding: 8px; width: auto; margin-top: 5px; }
+        .link-view { color: var(--accent-gold); text-decoration: none; font-size: 13px; }
+        .loader { display: none; text-align: center; padding: 20px; color: var(--accent-gold); font-weight: 500; }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div class="header">
-            <h1 id="portalTitle">Jewelry Management Portal</h1>
+            <h1>Abhushan Mandir Jewellers</h1>
             <p>Secure Account Ledger & Statement Verification</p>
-        </div>
-
-        <!-- System Router Selection Context -->
-        <div class="form-group">
-            <label for="routeSelect">Select Brand/System Account Route</label>
-            <select id="routeSelect" onchange="handleRouteSwitch()">
-                <option value="default_live">Primary Script Endpoint (Active)</option>
-                <option value="abhushan">Abhushan Mandir Jewellers</option>
-                <option value="vachya">Vachya Jewels</option>
-            </select>
         </div>
 
         <div class="tab-navigation">
             <button class="tab-btn active" onclick="switchTab('userView')">Customer Ledger</button>
             <button class="tab-btn" onclick="switchTab('submitView')">Submit Payment</button>
-            <button class="tab-btn" onclick="switchTab('adminView')" id="adminTabHead">Admin Queue</button>
+            <button class="tab-btn" onclick="switchTab('adminView')">Admin Queue</button>
         </div>
 
-        <div id="loader" class="loader">Processing request, please wait...</div>
+        <div id="loader" class="loader">Processing request...</div>
 
-        <!-- 1. Customer Dashboard View -->
         <div id="userView" class="view-panel active">
             <div class="form-group">
-                <label for="userIdInput">Enter Customer Phone Number</label>
+                <label>Enter Registered Phone Number</label>
                 <input type="text" id="userIdInput" placeholder="e.g. 9999938883">
                 <button class="btn" onclick="fetchCustomerLedger()">Search Statement</button>
             </div>
-
             <div id="ledgerOutput" style="display: none;">
                 <div class="profile-card">
-                    <div class="profile-row">
-                        <span class="profile-label">Customer Name:</span>
-                        <span class="profile-value" id="lblCustName">-</span>
-                    </div>
-                    <div class="profile-row">
-                        <span class="profile-label">Phone Reference:</span>
-                        <span class="profile-value" id="lblCustPhone">-</span>
-                    </div>
-                    <div class="profile-row">
-                        <span class="profile-label">Monthly Assessment Value:</span>
-                        <span class="profile-value" id="lblCustAmount">-</span>
-                    </div>
+                    <div class="profile-row"><span class="profile-label">Customer Name:</span><span class="profile-value" id="lblCustName">-</span></div>
+                    <div class="profile-row"><span class="profile-label">Phone Reference:</span><span class="profile-value" id="lblCustPhone">-</span></div>
+                    <div class="profile-row"><span class="profile-label">Monthly Assessment Value:</span><span class="profile-value" id="lblCustAmount">-</span></div>
                 </div>
-
                 <h3>Transaction History Ledger</h3>
                 <div class="table-container">
                     <table>
-                        <thead>
-                            <tr>
-                                <th>Installment/Month</th>
-                                <th>Amount</th>
-                                <th>UTR Number</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ledgerTableBody">
-                            <!-- Populated Dynamically -->
-                        </tbody>
+                        <thead><tr><th>Installment/Month</th><th>Amount</th><th>UTR Number</th><th>Status</th></tr></thead>
+                        <tbody id="ledgerTableBody"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- 2. Payment Entry Submissions View -->
         <div id="submitView" class="view-panel">
             <form id="paymentForm" onsubmit="submitTransactionForm(event)">
-                <div class="form-group">
-                    <label for="submitPhone">Customer Phone Number</label>
-                    <input type="text" id="submitPhone" required placeholder="Ex. 9876543210">
-                </div>
-                <div class="form-group">
-                    <label for="submitMonth">Installment Description / Month</label>
-                    <input type="text" id="submitMonth" required placeholder="Ex. October 2026">
-                </div>
-                <div class="form-group">
-                    <label for="submitAmount">Transaction Amount (INR)</label>
-                    <input type="number" id="submitAmount" required placeholder="Ex. 5000">
-                </div>
-                <div class="form-group">
-                    <label for="submitUtr">Bank UTR / Transaction Reference Number</label>
-                    <input type="text" id="submitUtr" required placeholder="12-digit UTR Code">
-                </div>
-                <div class="form-group">
-                    <label for="submitUrl">Payment Screenshot Cloud URL Link</label>
-                    <input type="url" id="submitUrl" required placeholder="https://imgbb.com/your-screenshot-link">
-                </div>
-                <button type="submit" class="btn">Submit Entry for Verification</button>
+                <div class="form-group"><label>Customer Phone Number</label><input type="text" id="submitPhone" required></div>
+                <div class="form-group"><label>Installment Description / Month</label><input type="text" id="submitMonth" required placeholder="Ex. October 2026"></div>
+                <div class="form-group"><label>Transaction Amount (INR)</label><input type="number" id="submitAmount" required></div>
+                <div class="form-group"><label>Bank UTR / Reference Number</label><input type="text" id="submitUtr" required></div>
+                <div class="form-group"><label>Payment Screenshot URL Link</label><input type="url" id="submitUrl" required></div>
+                <button type="submit" class="btn">Submit Entry</button>
             </form>
         </div>
 
-        <!-- 3. Operational Admin Approval Queue View -->
         <div id="adminView" class="view-panel">
-            <button class="btn" onclick="fetchAdminQueue()" style="margin-bottom: 15px;">Refresh Operational Pending Queue</button>
-            <div id="adminQueueContent">
-                <p style="text-align: center; color: var(--text-muted); padding: 10px;">Click refresh to pull current pending transactions.</p>
-            </div>
+            <button class="btn" onclick="fetchAdminQueue()" style="margin-bottom: 15px;">Refresh Pending Queue</button>
+            <div id="adminQueueContent"><p style="text-align: center; color: var(--text-muted); padding: 10px;">Click refresh to pull data.</p></div>
         </div>
     </div>
 
     <script>
-        // API Configuration Centralized Router Setup
-        const API_ROUTER = {
-            default_live: "https://script.google.com/macros/s/AKfycbwfK2nzoRFAz5GzxHmMrADBIVfnJNfaAh3u7I1GrQF_J-DwigZb3zd8R9jK8to3dbtgLA/exec",
-            abhushan: "https://script.google.com/macros/s/AKfycbzgMMbFUVWHmRAoaP3L1EA6xBoTUU56YEQhTMpuRegSxXL0-B-FOEG8S2-FcMbh3KcGSw/exec",
-            vachya: "https://script.google.com/macros/s/AKfycbzIdXocoJEESKpHenKApX64bfpku1ZT7ovctnrpQMJN8F2B-x6OyK64XJF8ArXmrGIi/exec"
-        };
-
-        let currentActiveUrl = API_ROUTER.default_live;
-
-        function handleRouteSwitch() {
-            const chosenKey = document.getElementById("routeSelect").value;
-            currentActiveUrl = API_ROUTER[chosenKey];
-            
-            // Clean view layouts during context modifications
-            document.getElementById("ledgerOutput").style.display = "none";
-            document.getElementById("adminQueueContent").innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 10px;">Switched context. Refresh layout parameters.</p>';
-        }
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzgMMbFUVWHmRAoaP3L1EA6xBoTUU56YEQhTMpuRegSxXL0-B-FOEG8S2-FcMbh3KcGSw/exec";
 
         function switchTab(viewId) {
-            document.querySelectorAll('.view-panel').forEach(panel => panel.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
-        function toggleUiLoader(displayState) {
-            document.getElementById("loader").style.display = displayState ? "block" : "none";
-        }
-
-        // Action Pipeline: Fetch Customer Ledger
         async function fetchCustomerLedger() {
             const phoneId = document.getElementById("userIdInput").value.trim();
-            if (!phoneId) return alert("Please present a valid lookup profile key/phone reference.");
-
-            toggleUiLoader(true);
+            if (!phoneId) return alert("Please enter a valid phone number.");
+            document.getElementById("loader").style.display = "block";
             document.getElementById("ledgerOutput").style.display = "none";
-
             try {
-                const targetUrl = `${currentActiveUrl}?action=getData&id=${encodeURIComponent(phoneId)}`;
-                const response = await fetch(targetUrl);
+                const response = await fetch(`${SCRIPT_URL}?action=getData&id=${encodeURIComponent(phoneId)}`);
                 const dataset = await response.json();
-
-                if (dataset.error) {
-                    alert(`System exception payload: ${dataset.error}`);
-                } else {
+                if (dataset.error) { alert(dataset.error); } else {
                     document.getElementById("lblCustName").innerText = dataset.profile.name;
                     document.getElementById("lblCustPhone").innerText = dataset.profile.phone;
                     document.getElementById("lblCustAmount").innerText = `₹${dataset.profile.monthlyAmount}`;
-
-                    const tableBody = document.getElementById("ledgerTableBody");
-                    tableBody.innerHTML = "";
-
+                    const tbody = document.getElementById("ledgerTableBody"); tbody.innerHTML = "";
                     dataset.transactions.forEach(tx => {
                         const row = document.createElement("tr");
                         const badgeStyle = tx.status === "Paid" ? "status-paid" : "status-pending";
-                        
-                        row.innerHTML = `
-                            <td>${tx.month}</td>
-                            <td>₹${tx.amount}</td>
-                            <td>${tx.utr}</td>
-                            <td><span class="status-badge ${badgeStyle}">${tx.status}</span></td>
-                        `;
-                        tableBody.appendChild(row);
+                        row.innerHTML = `<td>${tx.month}</td><td>₹${tx.amount}</td><td>${tx.utr}</td><td><span class="status-badge ${badgeStyle}">${tx.status}</span></td>`;
+                        tbody.appendChild(row);
                     });
-
                     document.getElementById("ledgerOutput").style.display = "block";
                 }
-            } catch (err) {
-                console.error(err);
-                alert("Failed to extract data structure context. Verify spreadsheet tab parameters or permissions.");
-            } finally {
-                toggleUiLoader(false);
-            }
+            } catch (err) { alert("Error loading customer profile."); } finally { document.getElementById("loader").style.display = "none"; }
         }
 
-        // Action Pipeline: Submit Transaction Entry Form
         async function submitTransactionForm(e) {
-            e.preventDefault();
-            toggleUiLoader(true);
-
-            const dataPayload = {
-                action: "submit",
-                id: document.getElementById("submitPhone").value.trim(),
-                month: document.getElementById("submitMonth").value.trim(),
-                amount: document.getElementById("submitAmount").value.trim(),
-                utr: document.getElementById("submitUtr").value.trim(),
-                screenshotUrl: document.getElementById("submitUrl").value.trim()
-            };
-
-            try {
-                const response = await fetch(currentActiveUrl, {
-                    method: "POST",
-                    body: JSON.stringify(dataPayload)
-                });
-                const confirmation = await response.json();
-
-                if (confirmation.status === "success") {
-                    alert("Transaction record mapped into processing arrays successfully.");
-                    document.getElementById("paymentForm").reset();
-                    switchTab('userView');
-                } else {
-                    alert("Submission anomaly detected.");
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Submission execution failure.");
-            } finally {
-                toggleUiLoader(false);
-            }
-        }
-
-        // Action Pipeline: Pull Operational Pending Queue
-        async function fetchAdminQueue() {
-            toggleUiLoader(true);
-            const containerNode = document.getElementById("adminQueueContent");
-            containerNode.innerHTML = "";
-
-            try {
-                const targetUrl = `${currentActiveUrl}?action=getData&id=all_pending`;
-                const response = await fetch(targetUrl);
-                const itemsList = await response.json();
-
-                if (itemsList.length === 0) {
-                    containerNode.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 10px;">Queue clear. No elements match structural condition flags.</p>';
-                    return;
-                }
-
-                itemsList.forEach(item => {
-                    const block = document.createElement("div");
-                    block.className = "admin-item";
-                    block.innerHTML = `
-                        <div class="profile-row"><span class="profile-label">Phone:</span><strong>${item.phone}</strong></div>
-                        <div class="profile-row"><span class="profile-label">Target:</span><span>${item.month}</span></div>
-                        <div class="profile-row"><span class="profile-label">Value:</span><span>₹${item.amount}</span></div>
-                        <div class="profile-row"><span class="profile-label">UTR:</span><span>${item.utr}</span></div>
-                        <div class="profile-row" style="margin-top:5px;">
-                            <a href="${item.screenshotUrl}" target="_blank" class="link-view">📄 View Verification Image</a>
-                        </div>
-                        <div class="admin-actions">
-                            <button class="btn btn-approve" onclick="approveRecordRow(${item.row})">Approve & Settle Account</button>
-                        </div>
-                    `;
-                    containerNode.appendChild(block);
-                });
-            } catch (err) {
-                console.error(err);
-                containerNode.innerHTML = '<p style="text-align: center; color: #ff8a80; padding: 10px;">Error parsing administrative runtime dataset.</p>';
-            } finally {
-                toggleUiLoader(false);
-            }
-        }
-
-        // Action Pipeline: Update Status to Approved/Paid
-        async function approveRecordRow(targetRowId) {
-            if (!confirm(`Execute state confirmation update on database row reference: ${targetRowId}?`)) return;
-            toggleUiLoader(true);
-
+            e.preventDefault(); document.getElementById("loader").style.display = "block";
             const payload = {
-                action: "approve",
-                row: targetRowId
+                action: "submit", id: document.getElementById("submitPhone").value.trim(),
+                month: document.getElementById("submitMonth").value.trim(), amount: document.getElementById("submitAmount").value.trim(),
+                utr: document.getElementById("submitUtr").value.trim(), screenshotUrl: document.getElementById("submitUrl").value.trim()
             };
-
             try {
-                const response = await fetch(currentActiveUrl, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                });
-                const interpretation = await response.json();
+                const response = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+                const res = await response.json();
+                if (res.status === "success") { alert("Submitted successfully!"); document.getElementById("paymentForm").reset(); switchTab('userView'); }
+            } catch (err) { alert("Submission failed."); } finally { document.getElementById("loader").style.display = "none"; }
+        }
 
-                if (interpretation.status === "success") {
-                    alert("Database row state updated successfully.");
-                    fetchAdminQueue();
-                } else {
-                    alert("Error executing cell value modifications.");
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Network operational logic fault during execution.");
-            } finally {
-                toggleUiLoader(false);
-            }
+        async function fetchAdminQueue() {
+            document.getElementById("loader").style.display = "block";
+            const container = document.getElementById("adminQueueContent"); container.innerHTML = "";
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getData&id=all_pending`);
+                const list = await response.json();
+                if (list.length === 0) { container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No pending entries.</p>'; return; }
+                list.forEach(item => {
+                    const block = document.createElement("div"); block.className = "admin-item";
+                    block.innerHTML = `
+                        <div class="profile-row"><span>Phone:</span><strong>${item.phone}</strong></div>
+                        <div class="profile-row"><span>Month:</span><span>${item.month}</span></div>
+                        <div class="profile-row"><span>Amount:</span><span>₹${item.amount}</span></div>
+                        <div class="profile-row"><span>UTR:</span><span>${item.utr}</span></div>
+                        <div class="profile-row"><a href="${item.screenshotUrl}" target="_blank" class="link-view">📄 View Image</a></div>
+                        <button class="btn btn-approve" onclick="approveRow(${item.row})">Approve</button>
+                    `;
+                    container.appendChild(block);
+                });
+            } catch (err) { alert("Error pulling queue."); } finally { document.getElementById("loader").style.display = "none"; }
+        }
+
+        async function approveRow(rowId) {
+            if (!confirm("Approve this payment?")) return;
+            document.getElementById("loader").style.display = "block";
+            try {
+                const response = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "approve", row: rowId }) });
+                const res = await response.json();
+                if (res.status === "success") { alert("Approved!"); fetchAdminQueue(); }
+            } catch (err) { alert("Approval failed."); } finally { document.getElementById("loader").style.display = "none"; }
         }
     </script>
 </body>
