@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abhushan Mandir Jewellers - Account Ledger</title>
+    <title>Secure Jewelry Ledger Portal</title>
     <style>
-        :root { --bg-color: #121212; --card-bg: #1e1e1e; --accent-gold: #d4af37; --text-main: #ffffff; --text-muted: #aaaaaa; --border-color: #333333; --success-color: #2e7d32; --pending-color: #c5a059; }
+        :root { 
+            --bg-color: #121212; 
+            --card-bg: #1e1e1e; 
+            --accent-gold: #d4af37; 
+            --text-main: #ffffff; 
+            --text-muted: #aaaaaa; 
+            --border-color: #333333; 
+            --success-color: #2e7d32; 
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         .container { width: 100%; max-width: 600px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); padding: 25px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        
+        /* Access Denied Error Screen Styling */
+        #errorPanel { display: none; text-align: center; padding: 40px 20px; }
+        #errorPanel h2 { color: #cf6679; margin-bottom: 10px; }
+        #errorPanel p { color: var(--text-muted); font-size: 14px; }
+
+        /* Main App Interface (Initially Hidden) */
+        #mainAppInterface { display: none; }
+
         .header { text-align: center; margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
         .header h1 { color: var(--accent-gold); font-size: 24px; font-weight: 600; letter-spacing: 1px; }
         .header p { color: var(--text-muted); font-size: 14px; margin-top: 5px; }
@@ -41,81 +58,140 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Abhushan Mandir Jewellers</h1>
-            <p>Secure Account Ledger & Statement Verification</p>
+        
+        <!-- Error Panel (If URL is invalid) -->
+        <div id="errorPanel">
+            <h2>Access Denied</h2>
+            <p>No valid merchant/brand route parameters were specified. Please use the authorized secure link provided by your jeweler.</p>
         </div>
 
-        <div class="tab-navigation">
-            <button class="tab-btn active" onclick="switchTab('userView')">Customer Ledger</button>
-            <button class="tab-btn" onclick="switchTab('submitView')">Submit Payment</button>
-            <button class="tab-btn" onclick="switchTab('adminView')">Admin Queue</button>
-        </div>
-
-        <div id="loader" class="loader">Processing request...</div>
-
-        <div id="userView" class="view-panel active">
-            <div class="form-group">
-                <label>Enter Registered Phone Number</label>
-                <input type="text" id="userIdInput" placeholder="e.g. 9999938883">
-                <button class="btn" onclick="fetchCustomerLedger()">Search Statement</button>
+        <!-- Main Authorized Application Panel -->
+        <div id="mainAppInterface">
+            <div class="header">
+                <h1 id="brandTitle">Jewelry Portal</h1>
+                <p>Secure Account Ledger & Statement Verification</p>
             </div>
-            <div id="ledgerOutput" style="display: none;">
-                <div class="profile-card">
-                    <div class="profile-row"><span class="profile-label">Customer Name:</span><span class="profile-value" id="lblCustName">-</span></div>
-                    <div class="profile-row"><span class="profile-label">Phone Reference:</span><span class="profile-value" id="lblCustPhone">-</span></div>
-                    <div class="profile-row"><span class="profile-label">Monthly Assessment Value:</span><span class="profile-value" id="lblCustAmount">-</span></div>
+
+            <div class="tab-navigation">
+                <button class="tab-btn active" onclick="switchTab('userView', event)">Customer Ledger</button>
+                <button class="tab-btn" onclick="switchTab('submitView', event)">Submit Payment</button>
+                <button class="tab-btn" onclick="switchTab('adminView', event)">Admin Queue</button>
+            </div>
+
+            <div id="loader" class="loader">Processing request...</div>
+
+            <!-- TAB 1: USER VIEW -->
+            <div id="userView" class="view-panel active">
+                <div class="form-group">
+                    <label>Enter Registered Phone Number</label>
+                    <input type="text" id="userIdInput" placeholder="e.g. 9999938883">
+                    <button class="btn" onclick="fetchCustomerLedger()">Search Statement</button>
                 </div>
-                <h3>Transaction History Ledger</h3>
-                <div class="table-container">
-                    <table>
-                        <thead><tr><th>Installment/Month</th><th>Amount</th><th>UTR Number</th><th>Status</th></tr></thead>
-                        <tbody id="ledgerTableBody"></tbody>
-                    </table>
+                <div id="ledgerOutput" style="display: none;">
+                    <div class="profile-card">
+                        <div class="profile-row"><span class="profile-label">Customer Name:</span><span class="profile-value" id="lblCustName">-</span></div>
+                        <div class="profile-row"><span class="profile-label">Phone Reference:</span><span class="profile-value" id="lblCustPhone">-</span></div>
+                        <div class="profile-row"><span class="profile-label">Monthly Assessment Value:</span><span class="profile-value" id="lblCustAmount">-</span></div>
+                    </div>
+                    <h3>Transaction History Ledger</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Installment/Month</th><th>Amount</th><th>UTR Number</th><th>Status</th></tr></thead>
+                            <tbody id="ledgerTableBody"></tbody>
+                        </table>
+                    </div>
                 </div>
+            </div>
+
+            <!-- TAB 2: SUBMIT PAYMENT -->
+            <div id="submitView" class="view-panel">
+                <form id="paymentForm" onsubmit="submitTransactionForm(event)">
+                    <div class="form-group"><label>Customer Phone Number</label><input type="text" id="submitPhone" required></div>
+                    <div class="form-group"><label>Installment Description / Month</label><input type="text" id="submitMonth" required placeholder="Ex. October 2026"></div>
+                    <div class="form-group"><label>Transaction Amount (INR)</label><input type="number" id="submitAmount" required></div>
+                    <div class="form-group"><label>Bank UTR / Reference Number</label><input type="text" id="submitUtr" required></div>
+                    <div class="form-group"><label>Payment Screenshot URL Link</label><input type="url" id="submitUrl" required></div>
+                    <button type="submit" class="btn">Submit Entry</button>
+                </form>
+            </div>
+
+            <!-- TAB 3: ADMIN QUEUE -->
+            <div id="adminView" class="view-panel">
+                <button class="btn" onclick="fetchAdminQueue()" style="margin-bottom: 15px;">Refresh Pending Queue</button>
+                <div id="adminQueueContent"><p style="text-align: center; color: var(--text-muted); padding: 10px;">Click refresh to pull data.</p></div>
             </div>
         </div>
 
-        <div id="submitView" class="view-panel">
-            <form id="paymentForm" onsubmit="submitTransactionForm(event)">
-                <div class="form-group"><label>Customer Phone Number</label><input type="text" id="submitPhone" required></div>
-                <div class="form-group"><label>Installment Description / Month</label><input type="text" id="submitMonth" required placeholder="Ex. October 2026"></div>
-                <div class="form-group"><label>Transaction Amount (INR)</label><input type="number" id="submitAmount" required></div>
-                <div class="form-group"><label>Bank UTR / Reference Number</label><input type="text" id="submitUtr" required></div>
-                <div class="form-group"><label>Payment Screenshot URL Link</label><input type="url" id="submitUrl" required></div>
-                <button type="submit" class="btn">Submit Entry</button>
-            </form>
-        </div>
-
-        <div id="adminView" class="view-panel">
-            <button class="btn" onclick="fetchAdminQueue()" style="margin-bottom: 15px;">Refresh Pending Queue</button>
-            <div id="adminQueueContent"><p style="text-align: center; color: var(--text-muted); padding: 10px;">Click refresh to pull data.</p></div>
-        </div>
     </div>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzgMMbFUVWHmRAoaP3L1EA6xBoTUU56YEQhTMpuRegSxXL0-B-FOEG8S2-FcMbh3KcGSw/exec";
+        // Central Route Directory
+        const BRAND_ROUTER = {
+            "abhushan": {
+                name: "Abhushan Mandir Jewellers",
+                script: "https://script.google.com/macros/s/AKfycbzgMMbFUVWHmRAoaP3L1EA6xBoTUU56YEQhTMpuRegSxXL0-B-FOEG8S2-FcMbh3KcGSw/exec"
+            },
+            "vachya": {
+                name: "Vachya Jewels",
+                script: "https://script.google.com/macros/s/AKfycbzIdXocoJEESKpHenKApX64bfpku1ZT7ovctnrpQMJN8F2B-x6OyK64XJF8ArXmrGIi/exec"
+            },
+            "brand3": {
+                name: "Ofbuzz Premium Silver System",
+                script: "https://script.google.com/macros/s/AKfycbwfK2nzoRFAz5GzxHmMrADBIVfnJNfaAh3u7I1GrQF_J-DwigZb3zd8R9jK8to3dbtgLA/exec"
+            }
+        };
 
-        function switchTab(viewId) {
+        let CURRENT_SCRIPT_URL = "";
+
+        // 1. Initialize & Parse URL Routing Parameters instantly on Load
+        function initializeAppRouting() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const viewKey = urlParams.get('view')?.toLowerCase().trim();
+
+            if (viewKey && BRAND_ROUTER[viewKey]) {
+                // Route Validated successfully
+                CURRENT_SCRIPT_URL = BRAND_ROUTER[viewKey].script;
+                document.getElementById("brandTitle").innerText = BRAND_ROUTER[viewKey].name;
+                document.getElementById("mainAppInterface").style.display = "block";
+            } else {
+                // Invalid parameters / No Access
+                document.getElementById("errorPanel").style.display = "block";
+            }
+        }
+
+        // Run Routing Check Immediately
+        initializeAppRouting();
+
+
+        // 2. Interface Tab Switching Functional Logic
+        function switchTab(viewId, event) {
             document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
+        // 3. API Communication Logic (Uses the mapped Routing URL dynamically)
         async function fetchCustomerLedger() {
             const phoneId = document.getElementById("userIdInput").value.trim();
             if (!phoneId) return alert("Please enter a valid phone number.");
+            
             document.getElementById("loader").style.display = "block";
             document.getElementById("ledgerOutput").style.display = "none";
+            
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=getData&id=${encodeURIComponent(phoneId)}`);
+                const response = await fetch(`${CURRENT_SCRIPT_URL}?action=getData&id=${encodeURIComponent(phoneId)}`);
                 const dataset = await response.json();
-                if (dataset.error) { alert(dataset.error); } else {
+                if (dataset.error) { 
+                    alert(dataset.error); 
+                } else {
                     document.getElementById("lblCustName").innerText = dataset.profile.name;
                     document.getElementById("lblCustPhone").innerText = dataset.profile.phone;
                     document.getElementById("lblCustAmount").innerText = `₹${dataset.profile.monthlyAmount}`;
-                    const tbody = document.getElementById("ledgerTableBody"); tbody.innerHTML = "";
+                    
+                    const tbody = document.getElementById("ledgerTableBody"); 
+                    tbody.innerHTML = "";
+                    
                     dataset.transactions.forEach(tx => {
                         const row = document.createElement("tr");
                         const badgeStyle = tx.status === "Paid" ? "status-paid" : "status-pending";
@@ -124,32 +200,56 @@
                     });
                     document.getElementById("ledgerOutput").style.display = "block";
                 }
-            } catch (err) { alert("Error loading customer profile."); } finally { document.getElementById("loader").style.display = "none"; }
+            } catch (err) { 
+                alert("Error loading customer profile."); 
+            } finally { 
+                document.getElementById("loader").style.display = "none"; 
+            }
         }
 
         async function submitTransactionForm(e) {
-            e.preventDefault(); document.getElementById("loader").style.display = "block";
+            e.preventDefault(); 
+            document.getElementById("loader").style.display = "block";
+            
             const payload = {
-                action: "submit", id: document.getElementById("submitPhone").value.trim(),
-                month: document.getElementById("submitMonth").value.trim(), amount: document.getElementById("submitAmount").value.trim(),
-                utr: document.getElementById("submitUtr").value.trim(), screenshotUrl: document.getElementById("submitUrl").value.trim()
+                action: "submit", 
+                id: document.getElementById("submitPhone").value.trim(),
+                month: document.getElementById("submitMonth").value.trim(), 
+                amount: document.getElementById("submitAmount").value.trim(),
+                utr: document.getElementById("submitUtr").value.trim(), 
+                screenshotUrl: document.getElementById("submitUrl").value.trim()
             };
+            
             try {
-                const response = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
+                const response = await fetch(CURRENT_SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) });
                 const res = await response.json();
-                if (res.status === "success") { alert("Submitted successfully!"); document.getElementById("paymentForm").reset(); switchTab('userView'); }
-            } catch (err) { alert("Submission failed."); } finally { document.getElementById("loader").style.display = "none"; }
+                if (res.status === "success") { 
+                    alert("Submitted successfully!"); 
+                    document.getElementById("paymentForm").reset(); 
+                    document.querySelector('.tab-navigation .tab-btn').click(); // Switch back to first tab
+                }
+            } catch (err) { 
+                alert("Submission failed."); 
+            } finally { 
+                document.getElementById("loader").style.display = "none"; 
+            }
         }
 
         async function fetchAdminQueue() {
             document.getElementById("loader").style.display = "block";
-            const container = document.getElementById("adminQueueContent"); container.innerHTML = "";
+            const container = document.getElementById("adminQueueContent"); 
+            container.innerHTML = "";
+            
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=getData&id=all_pending`);
+                const response = await fetch(`${CURRENT_SCRIPT_URL}?action=getData&id=all_pending`);
                 const list = await response.json();
-                if (list.length === 0) { container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No pending entries.</p>'; return; }
+                if (list.length === 0) { 
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No pending entries.</p>'; 
+                    return; 
+                }
                 list.forEach(item => {
-                    const block = document.createElement("div"); block.className = "admin-item";
+                    const block = document.createElement("div"); 
+                    block.className = "admin-item";
                     block.innerHTML = `
                         <div class="profile-row"><span>Phone:</span><strong>${item.phone}</strong></div>
                         <div class="profile-row"><span>Month:</span><span>${item.month}</span></div>
@@ -160,17 +260,28 @@
                     `;
                     container.appendChild(block);
                 });
-            } catch (err) { alert("Error pulling queue."); } finally { document.getElementById("loader").style.display = "none"; }
+            } catch (err) { 
+                alert("Error pulling queue."); 
+            } finally { 
+                document.getElementById("loader").style.display = "none"; 
+            }
         }
 
         async function approveRow(rowId) {
             if (!confirm("Approve this payment?")) return;
             document.getElementById("loader").style.display = "block";
             try {
-                const response = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "approve", row: rowId }) });
+                const response = await fetch(CURRENT_SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "approve", row: rowId }) });
                 const res = await response.json();
-                if (res.status === "success") { alert("Approved!"); fetchAdminQueue(); }
-            } catch (err) { alert("Approval failed."); } finally { document.getElementById("loader").style.display = "none"; }
+                if (res.status === "success") { 
+                    alert("Approved!"); 
+                    fetchAdminQueue(); 
+                }
+            } catch (err) { 
+                alert("Approval failed."); 
+            } finally { 
+                document.getElementById("loader").style.display = "none"; 
+            }
         }
     </script>
 </body>
