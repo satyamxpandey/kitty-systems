@@ -174,7 +174,7 @@
                 redemptionText: "Product Restrictions: You cannot buy Gold Coins, Bars, Ginni, or Fine Gold. This scheme is exclusively valid for purchasing Diamond or Gold Jewellery.",
                 penaltyText: "Premature Cash-Out Penalty: Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% will be levied directly against your calculated available ledger balance."
             },
-             "Abhushan": {
+            "abhushan": { // Sanitized registry key to lowercase to support foolproof parsing
                 name: "Abhushan Mandir",
                 themeText: "text-amber-600",
                 themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
@@ -210,7 +210,11 @@
 
         // Engine Auto-routing Parameter Mapping Setup
         const urlParams = new URLSearchParams(window.location.search);
-        const shopKey = urlParams.get('shop') || 'vachya'; 
+        
+        // Robust parameter catching: Fallbacks to matching both 'shop' or 'view', processed cleanly in lowercase.
+        const routingParam = urlParams.get('shop') || urlParams.get('view') || 'vachya';
+        const shopKey = routingParam.toLowerCase(); 
+        
         const config = SHOP_DATABASES[shopKey] || SHOP_DATABASES["vachya"];
 
         // Assign Configuration Routes & Dynamic Layout Injectors
