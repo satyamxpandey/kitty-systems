@@ -4,19 +4,19 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Automated Passbook Ledger & Master Dashboard</title>
+<title>Automated Passbook Ledger & Master Dashboard</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <style>
+<style>
 
-        .hidden-view { display: none !important; }
+    .hidden-view { display: none !important; }
 
-    </style>
+</style>
 
 </head>
 
@@ -24,61 +24,59 @@
 
 
 
-    <!-- CUSTOMER PASSBOOK VIEW -->
+<!-- CUSTOMER PASSBOOK VIEW -->
 
-    <div id="customerView" class="max-w-md mx-auto min-h-screen p-4 flex flex-col justify-between">
+<div id="customerView" class="max-w-md mx-auto min-h-screen p-4 flex flex-col justify-between">
 
-        <div>
+    <div>
 
-            <header class="text-center py-6">
+        <header class="text-center py-6">
 
-                <h1 id="brandTitle" class="text-2xl font-bold text-amber-600 tracking-tight">KITTY SYSTEM</h1>
+            <h1 id="brandTitle" class="text-2xl font-bold text-amber-600 tracking-tight">KITTY SYSTEM</h1>
 
-                <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Live Passbook Ledger</p>
+            <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Live Passbook Ledger</p>
 
-            </header>
-
-
-
-            <div class="bg-white rounded-2xl shadow-xs p-6 border border-gray-100 mb-6">
-
-                <input type="tel" id="phoneInput" placeholder="Enter Registered Phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none mb-3">
-
-                <button onclick="fetchPassbook()" id="fetchBtn" class="w-full text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer">View Passbook</button>
-
-            </div>
+        </header>
 
 
 
-            <div id="passbookContainer" class="hidden-view space-y-6">
+        <div class="bg-white rounded-2xl shadow-xs p-6 border border-gray-100 mb-6">
 
-                <div id="brandCard" class="bg-gradient-to-br text-white rounded-2xl p-6 shadow-xs relative overflow-hidden">
+            <input type="tel" id="phoneInput" placeholder="Enter Registered Phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none mb-3">
 
-                    <div class="relative z-10">
+            <button onclick="fetchPassbook()" id="fetchBtn" class="w-full text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer">View Passbook</button>
 
-                        <h3 id="custName" class="text-lg font-bold">-</h3>
+        </div>
 
-                        <p id="custPhone" class="text-xs opacity-75">-</p>
 
-                        
 
-                        <div class="mt-4 pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
+        <div id="passbookContainer" class="hidden-view space-y-6">
 
-                            <div>
+            <div id="brandCard" class="bg-gradient-to-br text-white rounded-2xl p-6 shadow-xs relative overflow-hidden">
 
-                                <span class="text-[10px] uppercase opacity-75 block tracking-wider">Monthly Contribution</span>
+                <div class="relative z-10">
 
-                                <span id="custAmount" class="text-lg font-bold">₹0</span>
+                    <h3 id="custName" class="text-lg font-bold">-</h3>
 
-                            </div>
+                    <p id="custPhone" class="text-xs opacity-75">-</p>
 
-                            <div class="text-right">
+                    
 
-                                <span class="text-[10px] uppercase opacity-75 block tracking-wider">Available Balance</span>
+                    <div class="mt-4 pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
 
-                                <span id="custLiveBalance" class="text-lg font-bold text-amber-100">₹0</span>
+                        <div>
 
-                            </div>
+                            <span class="text-[10px] uppercase opacity-75 block tracking-wider">Monthly Contribution</span>
+
+                            <span id="custAmount" class="text-lg font-bold">₹0</span>
+
+                        </div>
+
+                        <div class="text-right">
+
+                            <span class="text-[10px] uppercase opacity-75 block tracking-wider">Available Balance</span>
+
+                            <span id="custLiveBalance" class="text-lg font-bold text-amber-100">₹0</span>
 
                         </div>
 
@@ -86,449 +84,389 @@
 
                 </div>
 
-                
-
-                <div class="bg-white rounded-2xl p-6 border border-gray-100">
-
-                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">Tap an unpaid month to submit payment</p>
-
-                    <div id="gridWrapper" class="grid grid-cols-4 gap-3"></div>
-
-                </div>
-
-
-
-                <div class="bg-white rounded-2xl p-4 border border-gray-100 flex items-center justify-between shadow-xs">
-
-                    <div>
-
-                        <h4 class="text-xs font-bold text-gray-800">Facing issues with payments?</h4>
-
-                        <p class="text-[11px] text-gray-400 mt-0.5">Get instant verification or payment support</p>
-
-                    </div>
-
-                    <a id="supportLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-xs">
-
-                        Contact Support
-
-                    </a>
-
-                </div>
-
             </div>
-
-
-
-            <div id="termsContainer" class="mt-8 bg-amber-50/50 border rounded-2xl p-5 space-y-3">
-
-                <h4 id="termsHeading" class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-
-                    ⚠️ Terms & Conditions
-
-                </h4>
-
-                <ul class="text-[11.5px] space-y-2 list-disc pl-4 leading-relaxed opacity-90">
-
-                    <li id="ruleScheme">Pay regularly for consecutive months based on plan parameters.</li>
-
-                    <li><strong>Strict Deadline:</strong> Payment is mandatory every single month. Deadlines must be met to keep the bonus eligibility intact.</li>
-
-                    <li><strong>Verification Proof:</strong> Providing a valid 12-digit UTR code or screenshot proof is mandatory for every transaction. Unauthorized entries will result in automated rejection.</li>
-
-                    <li id="ruleRedemption">The accumulated amount can only be redeemed at the completion of the tenure via final jewelry purchase.</li>
-
-                    <li id="rulePenalty">Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction penalty will be levied directly against your calculated available ledger balance.</li>
-
-                </ul>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ADMIN AUTHENTICATION PANEL VIEW -->
-
-    <div id="adminLoginView" class="hidden-view max-w-sm mx-auto min-h-screen flex flex-col justify-center p-4">
-
-        <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-
-            <div class="text-center mb-6">
-
-                <h2 class="text-xl font-bold text-gray-900">Master Authentication</h2>
-
-                <p class="text-xs text-gray-400 mt-1">Access restricted to authorized personnel</p>
-
-            </div>
-
-            <div class="space-y-4">
-
-                <div>
-
-                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Username</label>
-
-                    <input type="text" id="adminUser" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
-
-                </div>
-
-                <div>
-
-                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Password</label>
-
-                    <input type="password" id="adminPass" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
-
-                </div>
-
-                <button onclick="handleAdminLogin()" id="adminLoginBtn" class="w-full text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2">Login to Control Panel</button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ADMIN CONTROL MASTER DASHBOARD VIEW -->
-
-    <div id="adminView" class="hidden-view max-w-5xl mx-auto p-6">
-
-        <header class="flex justify-between items-center border-b border-gray-200 pb-5 mb-6">
-
-            <div>
-
-                <h1 id="adminPanelTitle" class="text-2xl font-bold text-gray-900">Master Control</h1>
-
-                <p class="text-xs text-gray-500">Real-time Automated Dashboard</p>
-
-            </div>
-
-            <div class="flex gap-2">
-
-                <button onclick="loadAdminDashboard()" id="syncAdminBtn" class="text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer">Sync Pending Payments</button>
-
-                <button onclick="logoutAdmin()" class="bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-gray-200 cursor-pointer">Logout</button>
-
-            </div>
-
-        </header>
-
-
-
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
-
-            <table class="w-full text-left border-collapse">
-
-                <thead>
-
-                    <tr class="text-xs font-semibold text-gray-500 bg-gray-50 border-b border-gray-100">
-
-                        <th class="p-4">Phone Number</th>
-
-                        <th class="p-4">Month</th>
-
-                        <th class="p-4">Amount</th>
-
-                        <th class="p-4">UTR Reference / Receipt</th>
-
-                        <th class="p-4 text-center">Action</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="adminTableBody" class="divide-y divide-gray-100 text-sm">
-
-                    <tr><td colspan="5" class="p-8 text-center text-gray-400 italic">Click "Sync Pending Payments" to clear pending logs.</td></tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- PROOF SUBMISSION POPUP MODAL -->
-
-    <div id="paymentModal" class="hidden-view fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-
-        <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl my-auto">
-
-            <h3 class="text-lg font-bold text-gray-900 mb-1">Submit Payment</h3>
-
-            <p id="modalMonthTarget" class="text-xs font-semibold mb-4">Month 2 Tracker</p>
 
             
 
-            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200/60 flex flex-col items-center justify-center mb-4">
+            <div class="bg-white rounded-2xl p-6 border border-gray-100">
 
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Scan QR code to pay via UPI</p>
+                <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">Tap an unpaid month to submit payment</p>
 
-                <div class="w-40 h-40 bg-white p-2 rounded-lg border border-gray-100 shadow-xs flex items-center justify-center">
-
-                    <img id="qrCodeImg" src="" alt="UPI Payment QR Code" class="w-full h-full object-contain">
-
-                </div>
+                <div id="gridWrapper" class="grid grid-cols-4 gap-3"></div>
 
             </div>
 
 
 
-            <div class="space-y-3 mb-5">
+            <div class="bg-white rounded-2xl p-4 border border-gray-100 flex items-center justify-between shadow-xs">
 
                 <div>
 
-                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">UTR / Transaction ID</label>
+                    <h4 class="text-xs font-bold text-gray-800">Facing issues with payments?</h4>
 
-                    <input type="text" id="utrInput" placeholder="Enter 12-digit UTR Code" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
-
-                </div>
-
-                <div>
-
-                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Payment Slip Screenshot</label>
-
-                    <input type="file" id="fileInput" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold cursor-pointer">
+                    <p class="text-[11px] text-gray-400 mt-0.5">Get instant verification or payment support</p>
 
                 </div>
 
-            </div>
+                <a id="supportLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-xs">
 
+                    Contact Support
 
-
-            <div class="flex gap-2">
-
-                <button onclick="closePaymentModal()" class="w-1/2 bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-200 cursor-pointer">Cancel</button>
-
-                <button onclick="submitPaymentData()" id="submitPayBtn" class="w-1/2 text-white py-2.5 rounded-xl text-sm font-medium cursor-pointer">Submit Proof</button>
+                </a>
 
             </div>
 
         </div>
 
+
+
+        <div id="termsContainer" class="mt-8 bg-amber-50/50 border rounded-2xl p-5 space-y-3">
+
+            <h4 id="termsHeading" class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+
+                ⚠️ Terms & Conditions
+
+            </h4>
+
+            <ul class="text-[11.5px] space-y-2 list-disc pl-4 leading-relaxed opacity-90">
+
+                <li id="ruleScheme">Pay regularly for consecutive months based on plan parameters.</li>
+
+                <li><strong>Strict Deadline:</strong> Payment is mandatory every single month. Deadlines must be met to keep the bonus eligibility intact.</li>
+
+                <li><strong>Verification Proof:</strong> Providing a valid 12-digit UTR code or screenshot proof is mandatory for every transaction. Unauthorized entries will result in automated rejection.</li>
+
+                <li id="ruleRedemption">The accumulated amount can only be redeemed at the completion of the tenure via final jewelry purchase.</li>
+
+                <li id="rulePenalty">Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction penalty will be levied directly against your calculated available ledger balance.</li>
+
+            </ul>
+
+        </div>
+
     </div>
 
+</div>
 
 
-    <script>
 
-        // ==========================================
+<!-- ADMIN AUTHENTICATION PANEL VIEW -->
 
-        // CENTRALIZED CLIENT MONETIZATION REGISTRY
+<div id="adminLoginView" class="hidden-view max-w-sm mx-auto min-h-screen flex flex-col justify-center p-4">
 
-        // ==========================================
+    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
 
-        const SHOP_DATABASES = {
+        <div class="text-center mb-6">
 
-            "vachya": {
+            <h2 class="text-xl font-bold text-gray-900">Master Authentication</h2>
 
-                name: "VACHYA JEWELS",
+            <p class="text-xs text-gray-400 mt-1">Access restricted to authorized personnel</p>
 
-                themeText: "text-amber-600",
+        </div>
 
-                themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
+        <div class="space-y-4">
 
-                themeGradient: "from-amber-600 to-amber-700",
+            <div>
 
-                themeBorder: "border-amber-100",
+                <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Username</label>
 
-                themeContainer: "bg-amber-50/50 text-amber-900/80",
+                <input type="text" id="adminUser" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
 
-                themeTextHeading: "text-amber-800",
+            </div>
 
-                scriptUrl: "https://script.google.com/macros/s/AKfycbzIdXocoJEESKpHenKApX64bfpku1ZT7ovctnrpQMJN8F2B-x6OyK64XJF8ArXmrGIi/exec",
+            <div>
 
-                qrCode: "https://i.pinimg.com/736x/2d/a4/df/2da4dfccde5c68b3229af5f07db8fb01.jpg",
+                <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Password</label>
 
-                whatsapp: "919811396269",
+                <input type="password" id="adminPass" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
 
-                schemeMonths: 11,
+            </div>
 
-                bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and the 12th month's contribution will be topped up entirely by us.",
+            <button onclick="handleAdminLogin()" id="adminLoginBtn" class="w-full text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2">Login to Control Panel</button>
 
-                redemptionText: "Product Restrictions: You cannot buy Gold Coins, Bars, Ginni, or Fine Gold. This scheme is exclusively valid for purchasing Diamond or Gold Jewellery.",
+        </div>
 
-                penaltyText: "Premature Cash-Out Penalty: Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% will be levied directly against your calculated available ledger balance."
+    </div>
 
-            },
+</div>
 
-            "soni": {
 
-                name: "SONI JEWELLERS",
 
-                themeText: "text-rose-600",
+<!-- ADMIN CONTROL MASTER DASHBOARD VIEW -->
 
-                themeBg: "bg-rose-600 hover:bg-rose-700 focus:border-rose-500",
+<div id="adminView" class="hidden-view max-w-5xl mx-auto p-6">
 
-                themeGradient: "from-rose-600 to-rose-700",
+    <header class="flex justify-between items-center border-b border-gray-200 pb-5 mb-6">
 
-                themeBorder: "border-rose-100",
+        <div>
 
-                themeContainer: "bg-rose-50/50 text-rose-900/80",
+            <h1 id="adminPanelTitle" class="text-2xl font-bold text-gray-900">Master Control</h1>
 
-                themeTextHeading: "text-rose-800",
+            <p class="text-xs text-gray-500">Real-time Automated Dashboard</p>
 
-                scriptUrl: "https://script.google.com/macros/s/REPLACE_WITH_SONI_SCRIPT_EXEC_URL/exec",
+        </div>
 
-                qrCode: "https://example.com/soni-placeholder-qr.jpg",
+        <div class="flex gap-2">
 
-                whatsapp: "91XXXXXXXXXX",
+            <button onclick="loadAdminDashboard()" id="syncAdminBtn" class="text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer">Sync Pending Payments</button>
 
-                schemeMonths: 11,
+            <button onclick="logoutAdmin()" class="bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-gray-200 cursor-pointer">Logout</button>
 
-                bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and get the 12th month's top-up completely free from Soni Jewellers.",
+        </div>
 
-                redemptionText: "Redemption Terms: Valid and redeemable across all hallmark gold ornaments and premium diamond collections.",
+    </header>
 
-                penaltyText: "Withdrawal Clause: Premature closure attracts an structural penalty reduction of 15% on the overall accumulated ledger base balance."
 
-            },
 
-            "abhushan": {
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
 
-                name: "ABHUSHAN MANDIR JEWELLERS",
+        <table class="w-full text-left border-collapse">
 
-                themeText: "text-indigo-700",
+            <thead>
 
-                themeBg: "bg-indigo-700 hover:bg-indigo-800 focus:border-indigo-600",
+                <tr class="text-xs font-semibold text-gray-500 bg-gray-50 border-b border-gray-100">
 
-                themeGradient: "from-indigo-700 to-purple-800",
+                    <th class="p-4">Phone Number</th>
 
-                themeBorder: "border-indigo-100",
+                    <th class="p-4">Month</th>
 
-                themeContainer: "bg-indigo-50/60 text-indigo-950/90",
+                    <th class="p-4">Amount</th>
 
-                themeTextHeading: "text-indigo-900",
+                    <th class="p-4">UTR Reference / Receipt</th>
 
-                scriptUrl: "https://script.google.com/macros/s/AKfycbzgMMbFUVWHmRAoaP3L1EA6xBoTUU56YEQhTMpuRegSxXL0-B-FOEG8S2-FcMbh3KcGSw/exec",
+                    <th class="p-4 text-center">Action</th>
 
-                qrCode: "https://i.pinimg.com/736x/c3/38/d8/c338d8a5eb932a316590867cd5a71374.jpg",
+                </tr>
 
-                whatsapp: "919818310319",
+            </thead>
 
-                schemeMonths: 11,
+            <tbody id="adminTableBody" class="divide-y divide-gray-100 text-sm">
 
-                bonusText: "Premium 11+1 Plan: Complete 11 consecutive months on schedule, and Abhushan Mandir Jewellers will fully credit your absolute 12th month installment balance.",
+                <tr><td colspan="5" class="p-8 text-center text-gray-400 italic">Click "Sync Pending Payments" to clear pending logs.</td></tr>
 
-                redemptionText: "Scheme Validity: Valid exclusively towards the purchase of hallmark gold ornaments, diamond jewelry, and silver artifacts. Strictly invalid for investment gold coins/bars.",
+            </tbody>
 
-                penaltyText: "Early Settlement Clause: Hard cash distributions are disallowed. Premature closures approved undergo an automated 12% valuation deduction penalty."
+        </table>
 
-            }
+    </div>
 
-        };
+</div>
 
 
 
-        // Engine Auto-routing Parameter Mapping Setup
+<!-- PROOF SUBMISSION POPUP MODAL -->
 
-        const urlParams = new URLSearchParams(window.location.search);
+<div id="paymentModal" class="hidden-view fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
 
-        const shopKey = urlParams.get('shop') || 'vachya'; 
+    <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl my-auto">
 
-        const config = SHOP_DATABASES[shopKey] || SHOP_DATABASES["vachya"];
+        <h3 class="text-lg font-bold text-gray-900 mb-1">Submit Payment</h3>
 
-
-
-        // Assign Configuration Routes & Dynamic Layout Injectors
-
-        const SCRIPT_URL = config.scriptUrl;
-
-        document.title = `${config.name} - Auto-Passbook & Master Control`;
+        <p id="modalMonthTarget" class="text-xs font-semibold mb-4">Month 2 Tracker</p>
 
         
 
-        // Text Content Updates
+        <div class="bg-gray-50 rounded-xl p-4 border border-gray-200/60 flex flex-col items-center justify-center mb-4">
 
-        document.getElementById('brandTitle').innerText = config.name;
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Scan QR code to pay via UPI</p>
 
-        document.getElementById('adminPanelTitle').innerText = `${config.name} Master Control`;
+            <div class="w-40 h-40 bg-white p-2 rounded-lg border border-gray-100 shadow-xs flex items-center justify-center">
 
-        document.getElementById('qrCodeImg').src = config.qrCode;
+                <img id="qrCodeImg" src="" alt="UPI Payment QR Code" class="w-full h-full object-contain">
 
-        document.getElementById('modalMonthTarget').className = `text-xs ${config.themeText} font-semibold mb-4`;
+            </div>
 
-        document.getElementById('supportLink').href = `https://wa.me/${config.whatsapp}?text=Hello%20${encodeURIComponent(config.name)},%20I%20am%20facing%20an%20issue%20with%20my%20Kitty%20payment.`;
-
-        document.getElementById('ruleScheme').innerHTML = `<strong>${config.bonusText}</strong>`;
-
-        document.getElementById('ruleRedemption').innerHTML = `<strong>${config.redemptionText}</strong>`;
-
-        document.getElementById('rulePenalty').innerHTML = `<strong>${config.penaltyText}</strong>`;
+        </div>
 
 
 
-        // Dynamic Brand Theme Styles Setup
+        <div class="space-y-3 mb-5">
 
-        document.getElementById('brandTitle').className = `text-2xl font-bold ${config.themeText} tracking-tight`;
+            <div>
 
-        document.getElementById('fetchBtn').className = `w-full ${config.themeBg} text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer`;
+                <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">UTR / Transaction ID</label>
 
-        document.getElementById('submitPayBtn').className = `w-1/2 ${config.themeBg} text-white py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer`;
+                <input type="text" id="utrInput" placeholder="Enter 12-digit UTR Code" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
 
-        document.getElementById('brandCard').className = `bg-gradient-to-br ${config.themeGradient} text-white rounded-2xl p-6 shadow-xs relative overflow-hidden`;
+            </div>
 
-        document.getElementById('termsContainer').className = `mt-8 ${config.themeContainer} border ${config.themeBorder} rounded-2xl p-5 space-y-3`;
+            <div>
 
-        document.getElementById('termsHeading').className = `text-xs font-bold ${config.themeTextHeading} uppercase tracking-wider flex items-center gap-1.5`;
+                <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Payment Slip Screenshot</label>
 
-        document.getElementById('adminLoginBtn').className = `w-full ${config.themeBg} text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2`;
+                <input type="file" id="fileInput" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold cursor-pointer">
 
-        document.getElementById('syncAdminBtn').className = `${config.themeBg} text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer`;
+            </div>
 
-
-
-        let currentSelectedMonth = null;
-
-        let globalCustomerPhone = null;
-
-        let globalMonthlyAmount = 0;
+        </div>
 
 
 
-        window.addEventListener('DOMContentLoaded', () => {
+        <div class="flex gap-2">
 
-            if (urlParams.get('view') === 'admin') {
+            <button onclick="closePaymentModal()" class="w-1/2 bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-200 cursor-pointer">Cancel</button>
 
-                document.getElementById('customerView').classList.add('hidden-view');
+            <button onclick="submitPaymentData()" id="submitPayBtn" class="w-1/2 text-white py-2.5 rounded-xl text-sm font-medium cursor-pointer">Submit Proof</button>
 
-                if (sessionStorage.getItem('adminAuthenticated') === 'true') {
+        </div>
 
-                    document.getElementById('adminView').classList.remove('hidden-view');
+    </div>
 
-                    loadAdminDashboard();
-
-                } else {
-
-                    document.getElementById('adminLoginView').classList.remove('hidden-view');
-
-                }
-
-            }
-
-        });
+</div>
 
 
 
-        function handleAdminLogin() {
+<script>
 
-            const user = document.getElementById('adminUser').value.trim();
+    // ==========================================
 
-            const pass = document.getElementById('adminPass').value.trim();
+    // CENTRALIZED CLIENT MONETIZATION REGISTRY
+
+    // ==========================================
+
+    const SHOP_DATABASES = {
+
+        "vachya": {
+
+            name: "VACHYA JEWELS",
+
+            themeText: "text-amber-600",
+
+            themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
+
+            themeGradient: "from-amber-600 to-amber-700",
+
+            themeBorder: "border-amber-100",
+
+            themeContainer: "bg-amber-50/50 text-amber-900/80",
+
+            themeTextHeading: "text-amber-800",
+
+            scriptUrl: "https://script.google.com/macros/s/AKfycbzIdXocoJEESKpHenKApX64bfpku1ZT7ovctnrpQMJN8F2B-x6OyK64XJF8ArXmrGIi/exec",
+
+            qrCode: "https://i.pinimg.com/736x/2d/a4/df/2da4dfccde5c68b3229af5f07db8fb01.jpg",
+
+            whatsapp: "919811396269",
+
+            schemeMonths: 11,
+
+            bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and the 12th month's contribution will be topped up entirely by us.",
+
+            redemptionText: "Product Restrictions: You cannot buy Gold Coins, Bars, Ginni, or Fine Gold. This scheme is exclusively valid for purchasing Diamond or Gold Jewellery.",
+
+            penaltyText: "Premature Cash-Out Penalty: Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% will be levied directly against your calculated available ledger balance."
+
+        },
+
+        "abhushan": {
+
+            name: "ABHUSHAN MANDIR JEWELLERS",
+
+            themeText: "text-indigo-700",
+
+            themeBg: "bg-indigo-700 hover:bg-indigo-800 focus:border-indigo-600",
+
+            themeGradient: "from-indigo-700 to-purple-800",
+
+            themeBorder: "border-indigo-100",
+
+            themeContainer: "bg-indigo-50/60 text-indigo-950/90",
+
+            themeTextHeading: "text-indigo-900",
+
+            scriptUrl: "https://script.google.com/macros/s/AKfycbzgMMbFUVWHmRAoaP3L1EA6xBoTUU56YEQhTMpuRegSxXL0-B-FOEG8S2-FcMbh3KcGSw/exec",
+
+            qrCode: "https://i.pinimg.com/736x/c3/38/d8/c338d8a5eb932a316590867cd5a71374.jpg",
+
+            whatsapp: "919818310319",
+
+            schemeMonths: 11,
+
+            bonusText: "Premium 11+1 Plan: Complete 11 consecutive months on schedule, and Abhushan Mandir Jewellers will fully credit your absolute 12th month installment balance.",
+
+            redemptionText: "Scheme Validity: Valid exclusively towards the purchase of hallmark gold ornaments, diamond jewelry, and silver artifacts. Strictly invalid for investment gold coins/bars.",
+
+            penaltyText: "Early Settlement Clause: Hard cash distributions are disallowed. Premature closures approved undergo an automated 12% valuation deduction penalty."
+
+        }
+
+    };
 
 
 
-            if (user === "ADMIN" && pass === "ADMIN") {
+    // Engine Auto-routing Parameter Mapping Setup
 
-                sessionStorage.setItem('adminAuthenticated', 'true');
+    const urlParams = new URLSearchParams(window.location.search);
 
-                document.getElementById('adminLoginView').classList.add('hidden-view');
+    const shopKey = urlParams.get('shop') || 'vachya'; 
+
+    const config = SHOP_DATABASES[shopKey] || SHOP_DATABASES["vachya"];
+
+
+
+    // Assign Configuration Routes & Dynamic Layout Injectors
+
+    const SCRIPT_URL = config.scriptUrl;
+
+    document.title = `${config.name} - Auto-Passbook & Master Control`;
+
+    
+
+    // Text Content Updates
+
+    document.getElementById('brandTitle').innerText = config.name;
+
+    document.getElementById('adminPanelTitle').innerText = `${config.name} Master Control`;
+
+    document.getElementById('qrCodeImg').src = config.qrCode;
+
+    document.getElementById('modalMonthTarget').className = `text-xs ${config.themeText} font-semibold mb-4`;
+
+    document.getElementById('supportLink').href = `https://wa.me/${config.whatsapp}?text=Hello%20${encodeURIComponent(config.name)},%20I%20am%20facing%20an%20issue%20with%20my%20Kitty%20payment.`;
+
+    document.getElementById('ruleScheme').innerHTML = `<strong>${config.bonusText}</strong>`;
+
+    document.getElementById('ruleRedemption').innerHTML = `<strong>${config.redemptionText}</strong>`;
+
+    document.getElementById('rulePenalty').innerHTML = `<strong>${config.penaltyText}</strong>`;
+
+
+
+    // Dynamic Brand Theme Styles Setup
+
+    document.getElementById('brandTitle').className = `text-2xl font-bold ${config.themeText} tracking-tight`;
+
+    document.getElementById('fetchBtn').className = `w-full ${config.themeBg} text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer`;
+
+    document.getElementById('submitPayBtn').className = `w-1/2 ${config.themeBg} text-white py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer`;
+
+    document.getElementById('brandCard').className = `bg-gradient-to-br ${config.themeGradient} text-white rounded-2xl p-6 shadow-xs relative overflow-hidden`;
+
+    document.getElementById('termsContainer').className = `mt-8 ${config.themeContainer} border ${config.themeBorder} rounded-2xl p-5 space-y-3`;
+
+    document.getElementById('termsHeading').className = `text-xs font-bold ${config.themeTextHeading} uppercase tracking-wider flex items-center gap-1.5`;
+
+    document.getElementById('adminLoginBtn').className = `w-full ${config.themeBg} text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2`;
+
+    document.getElementById('syncAdminBtn').className = `${config.themeBg} text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer`;
+
+
+
+    let currentSelectedMonth = null;
+
+    let globalCustomerPhone = null;
+
+    let globalMonthlyAmount = 0;
+
+
+
+    window.addEventListener('DOMContentLoaded', () => {
+
+        if (urlParams.get('view') === 'admin') {
+
+            document.getElementById('customerView').classList.add('hidden-view');
+
+            if (sessionStorage.getItem('adminAuthenticated') === 'true') {
 
                 document.getElementById('adminView').classList.remove('hidden-view');
 
@@ -536,476 +474,502 @@
 
             } else {
 
-                alert("Invalid username or password credentials.");
+                document.getElementById('adminLoginView').classList.remove('hidden-view');
 
             }
 
         }
 
+    });
 
 
-        function logoutAdmin() {
 
-            sessionStorage.removeItem('adminAuthenticated');
+    function handleAdminLogin() {
 
-            window.location.search = `?shop=${shopKey}`; 
+        const user = document.getElementById('adminUser').value.trim();
+
+        const pass = document.getElementById('adminPass').value.trim();
+
+
+
+        if (user === "ADMIN" && pass === "ADMIN") {
+
+            sessionStorage.setItem('adminAuthenticated', 'true');
+
+            document.getElementById('adminLoginView').classList.add('hidden-view');
+
+            document.getElementById('adminView').classList.remove('hidden-view');
+
+            loadAdminDashboard();
+
+        } else {
+
+            alert("Invalid username or password credentials.");
 
         }
 
+    }
 
 
-        function fetchPassbook() {
 
-            const phone = document.getElementById('phoneInput').value.trim();
+    function logoutAdmin() {
 
-            if(!phone) return alert("Please enter a phone number.");
+        sessionStorage.removeItem('adminAuthenticated');
+
+        window.location.search = `?shop=${shopKey}`; 
+
+    }
+
+
+
+    function fetchPassbook() {
+
+        const phone = document.getElementById('phoneInput').value.trim();
+
+        if(!phone) return alert("Please enter a phone number.");
+
+        
+
+        const fetchBtn = document.getElementById('fetchBtn');
+
+        fetchBtn.innerText = "Fetching...";
+
+        fetchBtn.disabled = true;
+
+
+
+        fetch(`${SCRIPT_URL}?action=getData&id=${phone}`)
+
+        .then(r => {
+
+            if (!r.ok) throw new Error("Invalid backend server target response configuration");
+
+            return r.json();
+
+        })
+
+        .then(data => {
+
+            fetchBtn.innerText = "View Passbook";
+
+            fetchBtn.disabled = false;
 
             
 
-            const fetchBtn = document.getElementById('fetchBtn');
+            if(!data || !data.profile) {
 
-            fetchBtn.innerText = "Fetching...";
+                return alert(`Record for ${phone} not found! Ensure rows are correctly mapped under the 'Customers' sheet tab.`);
 
-            fetchBtn.disabled = true;
+            }
 
+            
 
+            globalCustomerPhone = data.profile.phone;
 
-            fetch(`${SCRIPT_URL}?action=getData&id=${phone}`)
-
-            .then(r => {
-
-                if (!r.ok) throw new Error("Invalid backend server target response configuration");
-
-                return r.json();
-
-            })
-
-            .then(data => {
-
-                fetchBtn.innerText = "View Passbook";
-
-                fetchBtn.disabled = false;
-
-                
-
-                if(!data || !data.profile) {
-
-                    return alert(`Record for ${phone} not found! Ensure rows are correctly mapped under the 'Customers' sheet tab.`);
-
-                }
-
-                
-
-                globalCustomerPhone = data.profile.phone;
-
-                globalMonthlyAmount = data.profile.monthlyAmount;
+            globalMonthlyAmount = data.profile.monthlyAmount;
 
 
 
-                document.getElementById('passbookContainer').classList.remove('hidden-view');
+            document.getElementById('passbookContainer').classList.remove('hidden-view');
 
-                document.getElementById('custName').innerText = data.profile.name;
+            document.getElementById('custName').innerText = data.profile.name;
 
-                document.getElementById('custPhone').innerText = "+91 " + data.profile.phone;
+            document.getElementById('custPhone').innerText = "+91 " + data.profile.phone;
 
-                document.getElementById('custAmount').innerText = "₹" + data.profile.monthlyAmount;
+            document.getElementById('custAmount').innerText = "₹" + data.profile.monthlyAmount;
 
-                
+            
 
-                let paidMonthsCount = 0;
+            let paidMonthsCount = 0;
 
-                if (data.transactions) {
+            if (data.transactions) {
 
-                    data.transactions.forEach(t => {
+                data.transactions.forEach(t => {
 
-                        if (t.status === "Paid" && Number(t.month) <= config.schemeMonths) {
+                    if (t.status === "Paid" && Number(t.month) <= config.schemeMonths) {
 
-                            paidMonthsCount++;
-
-                        }
-
-                    });
-
-                }
-
-                
-
-                let calculatedBalance = paidMonthsCount * globalMonthlyAmount;
-
-                document.getElementById('custLiveBalance').innerText = "₹" + calculatedBalance;
-
-
-
-                const grid = document.getElementById('gridWrapper'); 
-
-                grid.innerHTML = "";
-
-                
-
-                for (let m = 1; m <= config.schemeMonths; m++) {
-
-                    let tx = data.transactions ? data.transactions.find(t => Number(t.month) === m) : null;
-
-                    let label = "Tap to Pay", style = `bg-gray-50 border border-gray-200 ${config.themeText} font-medium cursor-pointer hover:bg-gray-100 transition-all`;
-
-                    let actionStr = `onclick="openPaymentModal(${m})"`;
-
-                    
-
-                    if(tx && tx.status === "Paid") { 
-
-                        label = "✅ Paid"; 
-
-                        style = "bg-emerald-50 border border-emerald-100 text-emerald-700 font-bold"; 
-
-                        actionStr = ""; 
+                        paidMonthsCount++;
 
                     }
 
-                    else if(tx && tx.status === "Pending") { 
+                });
 
-                        label = "⏳ Pending"; 
+            }
 
-                        style = "bg-amber-50 border border-amber-100 text-amber-700 animate-pulse font-medium"; 
+            
 
-                        actionStr = ""; 
+            let calculatedBalance = paidMonthsCount * globalMonthlyAmount;
+
+            document.getElementById('custLiveBalance').innerText = "₹" + calculatedBalance;
+
+
+
+            const grid = document.getElementById('gridWrapper'); 
+
+            grid.innerHTML = "";
+
+            
+
+            for (let m = 1; m <= config.schemeMonths; m++) {
+
+                let tx = data.transactions ? data.transactions.find(t => Number(t.month) === m) : null;
+
+                let label = "Tap to Pay", style = `bg-gray-50 border border-gray-200 ${config.themeText} font-medium cursor-pointer hover:bg-gray-100 transition-all`;
+
+                let actionStr = `onclick="openPaymentModal(${m})"`;
+
+                
+
+                if(tx && tx.status === "Paid") { 
+
+                    label = "✅ Paid"; 
+
+                    style = "bg-emerald-50 border border-emerald-100 text-emerald-700 font-bold"; 
+
+                    actionStr = ""; 
+
+                }
+
+                else if(tx && tx.status === "Pending") { 
+
+                    label = "⏳ Pending"; 
+
+                    style = "bg-amber-50 border border-amber-100 text-amber-700 animate-pulse font-medium"; 
+
+                    actionStr = ""; 
+
+                }
+
+                grid.innerHTML += `<div ${actionStr} class="p-3 rounded-xl ${style} text-center text-xs"><span class="text-[9px] block opacity-60 text-gray-400">M-${m}</span>${label}</div>`;
+
+            }
+
+
+
+            if (paidMonthsCount === config.schemeMonths) {
+
+                grid.innerHTML += `
+
+                    <div class="p-3 rounded-xl bg-gradient-to-br ${config.themeGradient} text-white font-bold text-center text-xs col-span-4 border opacity-95 shadow-xs animate-bounce mt-1">
+
+                        <span class="text-[9px] block uppercase opacity-80 tracking-wider">M-${config.schemeMonths + 1} Bonus Earned</span>
+
+                        🎉 +1 Payout Confirmed!
+
+                    </div>
+
+                `;
+
+            }
+
+        }).catch(err => {
+
+            fetchBtn.innerText = "View Passbook";
+
+            fetchBtn.disabled = false;
+
+            alert("Error loading passbook ledger. Ensure you authorized macro permissions and named table tabs exactly 'Customers' and 'Transactions'.");
+
+        });
+
+    }
+
+
+
+    function openPaymentModal(monthNum) {
+
+        currentSelectedMonth = monthNum;
+
+        document.getElementById('modalMonthTarget').innerText = `Submitting proof for Month ${monthNum} (Amount: ₹${globalMonthlyAmount})`;
+
+        document.getElementById('utrInput').value = "";
+
+        document.getElementById('fileInput').value = "";
+
+        document.getElementById('paymentModal').classList.remove('hidden-view');
+
+    }
+
+
+
+    function closePaymentModal() {
+
+        document.getElementById('paymentModal').classList.add('hidden-view');
+
+    }
+
+
+
+    function submitPaymentData() {
+
+        const utr = document.getElementById('utrInput').value.trim();
+
+        const fileBox = document.getElementById('fileInput').files[0];
+
+        
+
+        if(!utr && !fileBox) return alert("Please provide either a UTR code or upload a receipt screenshot.");
+
+        
+
+        const submitPayBtn = document.getElementById('submitPayBtn');
+
+        submitPayBtn.innerText = "Optimizing Image Size...";
+
+        submitPayBtn.disabled = true;
+
+
+
+        if (fileBox) {
+
+            const reader = new FileReader();
+
+            reader.onloadend = function() {
+
+                const img = new Image();
+
+                img.onload = function() {
+
+                    const canvas = document.createElement('canvas');
+
+                    const MAX_WIDTH = 450; 
+
+                    let width = img.width;
+
+                    let height = img.height;
+
+
+
+                    if (width > MAX_WIDTH) {
+
+                        height = Math.round((height * MAX_WIDTH) / width);
+
+                        width = MAX_WIDTH;
 
                     }
 
-                    grid.innerHTML += `<div ${actionStr} class="p-3 rounded-xl ${style} text-center text-xs"><span class="text-[9px] block opacity-60 text-gray-400">M-${m}</span>${label}</div>`;
 
-                }
 
+                    canvas.width = width;
 
+                    canvas.height = height;
 
-                if (paidMonthsCount === config.schemeMonths) {
+                    const ctx = canvas.getContext('2d');
 
-                    grid.innerHTML += `
+                    ctx.drawImage(img, 0, 0, width, height);
 
-                        <div class="p-3 rounded-xl bg-gradient-to-br ${config.themeGradient} text-white font-bold text-center text-xs col-span-4 border opacity-95 shadow-xs animate-bounce mt-1">
 
-                            <span class="text-[9px] block uppercase opacity-80 tracking-wider">M-${config.schemeMonths + 1} Bonus Earned</span>
 
-                            🎉 +1 Payout Confirmed!
+                    const lowResBase64 = canvas.toDataURL('image/jpeg', 0.5);
 
-                        </div>
-
-                    `;
-
-                }
-
-            }).catch(err => {
-
-                fetchBtn.innerText = "View Passbook";
-
-                fetchBtn.disabled = false;
-
-                alert("Error loading passbook ledger. Ensure you authorized macro permissions and named table tabs exactly 'Customers' and 'Transactions'.");
-
-            });
-
-        }
-
-
-
-        function openPaymentModal(monthNum) {
-
-            currentSelectedMonth = monthNum;
-
-            document.getElementById('modalMonthTarget').innerText = `Submitting proof for Month ${monthNum} (Amount: ₹${globalMonthlyAmount})`;
-
-            document.getElementById('utrInput').value = "";
-
-            document.getElementById('fileInput').value = "";
-
-            document.getElementById('paymentModal').classList.remove('hidden-view');
-
-        }
-
-
-
-        function closePaymentModal() {
-
-            document.getElementById('paymentModal').classList.add('hidden-view');
-
-        }
-
-
-
-        function submitPaymentData() {
-
-            const utr = document.getElementById('utrInput').value.trim();
-
-            const fileBox = document.getElementById('fileInput').files[0];
-
-            
-
-            if(!utr && !fileBox) return alert("Please provide either a UTR code or upload a receipt screenshot.");
-
-            
-
-            const submitPayBtn = document.getElementById('submitPayBtn');
-
-            submitPayBtn.innerText = "Optimizing Image Size...";
-
-            submitPayBtn.disabled = true;
-
-
-
-            if (fileBox) {
-
-                const reader = new FileReader();
-
-                reader.onloadend = function() {
-
-                    const img = new Image();
-
-                    img.onload = function() {
-
-                        const canvas = document.createElement('canvas');
-
-                        const MAX_WIDTH = 450; 
-
-                        let width = img.width;
-
-                        let height = img.height;
-
-
-
-                        if (width > MAX_WIDTH) {
-
-                            height = Math.round((height * MAX_WIDTH) / width);
-
-                            width = MAX_WIDTH;
-
-                        }
-
-
-
-                        canvas.width = width;
-
-                        canvas.height = height;
-
-                        const ctx = canvas.getContext('2d');
-
-                        ctx.drawImage(img, 0, 0, width, height);
-
-
-
-                        const lowResBase64 = canvas.toDataURL('image/jpeg', 0.5);
-
-                        executePostSubmission(utr, lowResBase64);
-
-                    };
-
-                    img.src = reader.result;
+                    executePostSubmission(utr, lowResBase64);
 
                 };
 
-                reader.readAsDataURL(fileBox);
-
-            } else {
-
-                executePostSubmission(utr, "");
-
-            }
-
-        }
-
-
-
-        function executePostSubmission(utrCode, embeddedBase64Str) {
-
-            const submitPayBtn = document.getElementById('submitPayBtn');
-
-            submitPayBtn.innerText = "Updating Ledger...";
-
-            
-
-            const payload = {
-
-                action: "submit",
-
-                id: globalCustomerPhone,
-
-                month: currentSelectedMonth,
-
-                amount: globalMonthlyAmount,
-
-                utr: utrCode,
-
-                screenshotUrl: embeddedBase64Str
+                img.src = reader.result;
 
             };
 
+            reader.readAsDataURL(fileBox);
+
+        } else {
+
+            executePostSubmission(utr, "");
+
+        }
+
+    }
 
 
-            fetch(SCRIPT_URL, {
 
-                method: "POST",
+    function executePostSubmission(utrCode, embeddedBase64Str) {
 
-                body: JSON.stringify(payload)
+        const submitPayBtn = document.getElementById('submitPayBtn');
 
-            }).then(r => {
+        submitPayBtn.innerText = "Updating Ledger...";
 
-                // Safely interpret text status signals since macro redirection strings can break native r.json() configurations
+        
 
-                return r.text().then(text => {
+        const payload = {
 
-                    try { return JSON.parse(text); } 
+            action: "submit",
 
-                    catch(e) { return { status: "success", text: text }; }
+            id: globalCustomerPhone,
 
-                });
+            month: currentSelectedMonth,
 
-            }).then(res => {
+            amount: globalMonthlyAmount,
 
-                submitPayBtn.innerText = "Submit Proof";
+            utr: utrCode,
 
-                submitPayBtn.disabled = false;
+            screenshotUrl: embeddedBase64Str
 
-                closePaymentModal();
+        };
 
-                alert("Payment records successfully submitted for internal verification!");
 
-                fetchPassbook();
 
-            }).catch(e => {
+        fetch(SCRIPT_URL, {
 
-                submitPayBtn.innerText = "Submit Proof";
+            method: "POST",
 
-                submitPayBtn.disabled = false;
+            body: JSON.stringify(payload)
 
-                alert("Upload successfully processed!");
+        }).then(r => {
 
-                fetchPassbook();
+            // Safely interpret text status signals since macro redirection strings can break native r.json() configurations
+
+            return r.text().then(text => {
+
+                try { return JSON.parse(text); } 
+
+                catch(e) { return { status: "success", text: text }; }
 
             });
 
-        }
+        }).then(res => {
+
+            submitPayBtn.innerText = "Submit Proof";
+
+            submitPayBtn.disabled = false;
+
+            closePaymentModal();
+
+            alert("Payment records successfully submitted for internal verification!");
+
+            fetchPassbook();
+
+        }).catch(e => {
+
+            submitPayBtn.innerText = "Submit Proof";
+
+            submitPayBtn.disabled = false;
+
+            alert("Upload successfully processed!");
+
+            fetchPassbook();
+
+        });
+
+    }
 
 
 
-        function loadAdminDashboard() {
+    function loadAdminDashboard() {
 
-            const body = document.getElementById('adminTableBody');
+        const body = document.getElementById('adminTableBody');
 
-            body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500">Fetching live requests...</td></tr>`;
+        body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500">Fetching live requests...</td></tr>`;
 
-            
+        
 
-            fetch(`${SCRIPT_URL}?action=getData&id=all_pending`)
+        fetch(`${SCRIPT_URL}?action=getData&id=all_pending`)
 
-            .then(r => r.json()).then(pendingList => {
+        .then(r => r.json()).then(pendingList => {
 
-                if(!pendingList || pendingList.length === 0) {
+            if(!pendingList || pendingList.length === 0) {
 
-                    body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-emerald-600 font-medium">🎉 Great job! No pending verifications left.</td></tr>`;
+                body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-emerald-600 font-medium">🎉 Great job! No pending verifications left.</td></tr>`;
 
-                    return;
+                return;
 
-                }
+            }
 
-                body.innerHTML = "";
+            body.innerHTML = "";
 
-                pendingList.forEach(item => {
+            pendingList.forEach(item => {
 
-                    const slipSrc = item.screenshotUrl || item.screenshot || "";
+                const slipSrc = item.screenshotUrl || item.screenshot || "";
 
-                    const isInline = slipSrc.startsWith("data:image");
+                const isInline = slipSrc.startsWith("data:image");
 
-                    const linkMarkup = isInline 
+                const linkMarkup = isInline 
 
-                        ? `<button onclick="viewEmbeddedReceipt('${item.row}')" class="${config.themeText} underline font-medium block mt-1 cursor-pointer">View Native Image ↗</button>
+                    ? `<button onclick="viewEmbeddedReceipt('${item.row}')" class="${config.themeText} underline font-medium block mt-1 cursor-pointer">View Native Image ↗</button>
 
-                           <div id="hidden-img-${item.row}" class="hidden-view mt-2 max-w-xs border border-gray-200 p-1 bg-white rounded-lg"><img src="${slipSrc}" class="w-full h-auto"></div>`
+                       <div id="hidden-img-${item.row}" class="hidden-view mt-2 max-w-xs border border-gray-200 p-1 bg-white rounded-lg"><img src="${slipSrc}" class="w-full h-auto"></div>`
 
-                        : `<a href="${slipSrc}" target="_blank" class="${config.themeText} underline font-medium block mt-1">View Slip Receipt ↗</a>`;
-
-
-
-                    body.innerHTML += `
-
-                        <tr id="row-${item.row}">
-
-                            <td class="p-4 font-medium">${item.phone}</td>
-
-                            <td class="p-4">Month ${item.month}</td>
-
-                            <td class="p-4 font-semibold">₹${item.amount}</td>
-
-                            <td class="p-4 text-xs text-gray-500">
-
-                                <div>UTR: ${item.utr}</div>
-
-                                ${slipSrc ? linkMarkup : ''}
-
-                            </td>
-
-                            <td class="p-4 text-center">
-
-                                <button onclick="executeApproval(${item.row})" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-md hover:bg-emerald-700 font-medium transition-all cursor-pointer">Approve Instantly</button>
-
-                            </td>
-
-                        </tr>
-
-                    `;
-
-                });
-
-            }).catch(err => {
-
-                body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-rose-500 font-medium">Error linking data channels. Verify deployment configuration parameters.</td></tr>`;
-
-            });
-
-        }
+                    : `<a href="${slipSrc}" target="_blank" class="${config.themeText} underline font-medium block mt-1">View Slip Receipt ↗</a>`;
 
 
 
-        function viewEmbeddedReceipt(rowId) {
+                body.innerHTML += `
 
-            const box = document.getElementById(`hidden-img-${rowId}`);
+                    <tr id="row-${item.row}">
 
-            box.classList.toggle('hidden-view');
+                        <td class="p-4 font-medium">${item.phone}</td>
 
-        }
+                        <td class="p-4">Month ${item.month}</td>
 
+                        <td class="p-4 font-semibold">₹${item.amount}</td>
 
+                        <td class="p-4 text-xs text-gray-500">
 
-        function executeApproval(rowId) {
+                            <div>UTR: ${item.utr}</div>
 
-            if(!confirm("Are you sure you want to approve this transaction?")) return;
+                            ${slipSrc ? linkMarkup : ''}
 
-            const rowEl = document.getElementById(`row-${rowId}`);
+                        </td>
 
-            rowEl.style.opacity = "0.4";
+                        <td class="p-4 text-center">
 
+                            <button onclick="executeApproval(${item.row})" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-md hover:bg-emerald-700 font-medium transition-all cursor-pointer">Approve Instantly</button>
 
+                        </td>
 
-            fetch(SCRIPT_URL, {
+                    </tr>
 
-                method: "POST",
-
-                body: JSON.stringify({ action: "approve", row: rowId })
-
-            }).then(r => r.json()).then(success => {
-
-                if(success) {
-
-                    rowEl.remove();
-
-                    alert("Transaction updated to PAID successfully inside Google Sheets!");
-
-                }
+                `;
 
             });
 
-        }
+        }).catch(err => {
 
-    </script>
+            body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-rose-500 font-medium">Error linking data channels. Verify deployment configuration parameters.</td></tr>`;
 
-</body>
+        });
 
-</html>
+    }
+
+
+
+    function viewEmbeddedReceipt(rowId) {
+
+        const box = document.getElementById(`hidden-img-${rowId}`);
+
+        box.classList.toggle('hidden-view');
+
+    }
+
+
+
+    function executeApproval(rowId) {
+
+        if(!confirm("Are you sure you want to approve this transaction?")) return;
+
+        const rowEl = document.getElementById(`row-${rowId}`);
+
+        rowEl.style.opacity = "0.4";
+
+
+
+        fetch(SCRIPT_URL, {
+
+            method: "POST",
+
+            body: JSON.stringify({ action: "approve", row: rowId })
+
+        }).then(r => r.json()).then(success => {
+
+            if(success) {
+
+                rowEl.remove();
+
+                alert("Transaction updated to PAID successfully inside Google Sheets!");
+
+            }
+
+        });
+
+    }
+
+</script>
