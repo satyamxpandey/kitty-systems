@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automated Passbook Ledger & Master Dashboard</title>
+    <title>Automated Kitty Master Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .hidden-view { display: none !important; }
@@ -15,46 +15,64 @@
         <div>
             <header class="text-center py-6">
                 <h1 id="brandTitle" class="text-2xl font-bold text-amber-600 tracking-tight">KITTY SYSTEM</h1>
-                <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Live Passbook Ledger</p>
+                <p id="brandSubtitle" class="text-xs text-gray-400 uppercase tracking-widest mt-1">Live Passbook Ledger</p>
             </header>
 
-            <div class="bg-white rounded-2xl shadow-xs p-6 border border-gray-100 mb-6">
-                <input type="tel" id="phoneInput" placeholder="Enter Registered Phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none mb-3">
-                <button onclick="fetchPassbook()" id="fetchBtn" class="w-full text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer">View Passbook</button>
+            <!-- Default Welcome Home View -->
+            <div id="defaultHomeView" class="hidden-view space-y-6 text-center">
+                <div class="bg-white rounded-2xl shadow-xs p-4 border border-gray-100 overflow-hidden">
+                    <img src="https://www.psa.gov.in/CMS/web/sites/default/files/inline-images/img%201_0.jpg" alt="Home Image" class="w-full h-auto rounded-xl object-cover mx-auto">
+                </div>
+                <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-xs">
+                    <h4 class="text-sm font-bold text-gray-800">Support Registry Helpdesk</h4>
+                    <p class="text-xs text-gray-500 mt-1">Please use your customized merchant partner link to access your live kitty ledger passbook portal.</p>
+                    <div class="mt-4 pt-3 border-t border-gray-100 flex flex-col items-center justify-center gap-1">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Helpline Contact</span>
+                        <a href="https://wa.me/917827201014" target="_blank" class="text-sm font-semibold text-emerald-600 hover:underline">+91 78272 01014</a>
+                    </div>
+                </div>
             </div>
 
-            <div id="passbookContainer" class="hidden-view space-y-6">
-                <div id="brandCard" class="bg-gradient-to-br text-white rounded-2xl p-6 shadow-xs relative overflow-hidden">
-                    <div class="relative z-10">
-                        <h3 id="custName" class="text-lg font-bold">-</h3>
-                        <p id="custPhone" class="text-xs opacity-75">-</p>
-                        
-                        <div class="mt-4 pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
-                            <div>
-                                <span class="text-[10px] uppercase opacity-75 block tracking-wider">Monthly Contribution</span>
-                                <span id="custAmount" class="text-lg font-bold">₹0</span>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-[10px] uppercase opacity-75 block tracking-wider">Available Balance</span>
-                                <span id="custLiveBalance" class="text-lg font-bold text-amber-100">₹0</span>
+            <!-- Main Interactive Elements Wrapper (Hidden if default home) -->
+            <div id="interactiveContainer">
+                <div class="bg-white rounded-2xl shadow-xs p-6 border border-gray-100 mb-6">
+                    <input type="tel" id="phoneInput" placeholder="Enter Registered Phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none mb-3">
+                    <button onclick="fetchPassbook()" id="fetchBtn" class="w-full text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer">View Passbook</button>
+                </div>
+
+                <div id="passbookContainer" class="hidden-view space-y-6">
+                    <div id="brandCard" class="bg-gradient-to-br text-white rounded-2xl p-6 shadow-xs relative overflow-hidden">
+                        <div class="relative z-10">
+                            <h3 id="custName" class="text-lg font-bold">-</h3>
+                            <p id="custPhone" class="text-xs opacity-75">-</p>
+                            
+                            <div class="mt-4 pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
+                                <div>
+                                    <span class="text-[10px] uppercase opacity-75 block tracking-wider">Monthly Contribution</span>
+                                    <span id="custAmount" class="text-lg font-bold">₹0</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] uppercase opacity-75 block tracking-wider">Available Balance</span>
+                                    <span id="custLiveBalance" class="text-lg font-bold text-amber-100">₹0</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="bg-white rounded-2xl p-6 border border-gray-100">
-                    <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">Tap an unpaid month to submit payment</p>
-                    <div id="gridWrapper" class="grid grid-cols-4 gap-3"></div>
-                </div>
-
-                <div class="bg-white rounded-2xl p-4 border border-gray-100 flex items-center justify-between shadow-xs">
-                    <div>
-                        <h4 class="text-xs font-bold text-gray-800">Facing issues with payments?</h4>
-                        <p class="text-[11px] text-gray-400 mt-0.5">Get instant verification or payment support</p>
+                    
+                    <div class="bg-white rounded-2xl p-6 border border-gray-100">
+                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">Tap an unpaid month to submit payment</p>
+                        <div id="gridWrapper" class="grid grid-cols-4 gap-3"></div>
                     </div>
-                    <a id="supportLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-xs">
-                        Contact Support
-                    </a>
+
+                    <div class="bg-white rounded-2xl p-4 border border-gray-100 flex items-center justify-between shadow-xs">
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-800">Facing issues with payments?</h4>
+                            <p class="text-[11px] text-gray-400 mt-0.5">Get instant verification or payment support</p>
+                        </div>
+                        <a id="supportLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-xs">
+                            Contact Support
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -174,7 +192,7 @@
                 redemptionText: "Product Restrictions: You cannot buy Gold Coins, Bars, Ginni, or Fine Gold. This scheme is exclusively valid for purchasing Diamond or Gold Jewellery.",
                 penaltyText: "Premature Cash-Out Penalty: Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% will be levied directly against your calculated available ledger balance."
             },
-            "abhushan": { // Sanitized registry key to lowercase to support foolproof parsing
+            "abhushan": { 
                 name: "Abhushan Mandir",
                 themeText: "text-amber-600",
                 themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
@@ -211,11 +229,41 @@
         // Engine Auto-routing Parameter Mapping Setup
         const urlParams = new URLSearchParams(window.location.search);
         
-        // Robust parameter catching: Fallbacks to matching both 'shop' or 'view', processed cleanly in lowercase.
-        const routingParam = urlParams.get('shop') || urlParams.get('view') || 'vachya';
+        // Check if explicitly assigned parameter values exist
+        const hasShopParam = urlParams.has('shop') || urlParams.has('view');
+        const routingParam = urlParams.get('shop') || urlParams.get('view') || '';
         const shopKey = routingParam.toLowerCase(); 
         
-        const config = SHOP_DATABASES[shopKey] || SHOP_DATABASES["vachya"];
+        let config;
+        
+        if (!hasShopParam || (shopKey !== 'admin' && !SHOP_DATABASES[shopKey])) {
+            // Render Default Home View Layout Configuration safely
+            config = {
+                name: "KITTY SYSTEM CONTROL",
+                themeText: "text-amber-600",
+                themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
+                themeGradient: "from-amber-600 to-amber-700",
+                themeBorder: "border-gray-200",
+                themeContainer: "bg-gray-50/50 text-gray-800",
+                themeTextHeading: "text-gray-700",
+                scriptUrl: "",
+                qrCode: "",
+                whatsapp: "917827201014",
+                schemeMonths: 11,
+                bonusText: "Please log in using a merchant partner link.",
+                redemptionText: "Contact support to configure individual parameters.",
+                penaltyText: "Support Contact Helpline Number: +91 78272 01014"
+            };
+            
+            document.getElementById('interactiveContainer').classList.add('hidden-view');
+            document.getElementById('termsContainer').classList.add('hidden-view');
+            document.getElementById('brandSubtitle').classList.add('hidden-view');
+            document.getElementById('defaultHomeView').classList.remove('hidden-view');
+        } else {
+            // Fallback routing handling safely when matched parameters are initialized
+            const matchedKey = (shopKey === 'admin') ? 'vachya' : shopKey;
+            config = SHOP_DATABASES[matchedKey] || SHOP_DATABASES["vachya"];
+        }
 
         // Assign Configuration Routes & Dynamic Layout Injectors
         const SCRIPT_URL = config.scriptUrl;
@@ -361,6 +409,7 @@
             document.getElementById('paymentModal').classList.remove('hidden-view');
         }
 
+        // Fixed scoping setup mapping variables accurately to target windows
         function closePaymentModal() {
             document.getElementById('paymentModal').classList.add('hidden-view');
         }
