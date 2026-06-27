@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automated Kitty Master Dashboard</title>
-    <!-- Restored your original working Tailwind script link -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .hidden-view { display: none !important; }
@@ -224,6 +223,22 @@
                 bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and get the 12th month's top-up completely free from Soni Jewellers.",
                 redemptionText: "Redemption Terms: Valid and redeemable across all hallmark gold ornaments and premium diamond collections.",
                 penaltyText: "Withdrawal Clause: Premature closure attracts an structural penalty reduction of 15% on the overall accumulated ledger base balance."
+            },
+            "sumanjewellers": {
+                name: "Suman Jewellers",
+                themeText: "text-amber-600",
+                themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
+                themeGradient: "from-amber-600 to-amber-700",
+                themeBorder: "border-amber-100",
+                themeContainer: "bg-amber-50/50 text-amber-900/80",
+                themeTextHeading: "text-amber-800",
+                scriptUrl: "https://script.google.com/macros/s/AKfycbwFeNBwV3QmeF3iia0geOOwibH0jVIerc4fi10s-FwdySEEdGzv4ROpEw07ZPochZNmA/exec",
+                qrCode: "https://i.pinimg.com/736x/c3/38/d8/c338d8a5eb932a316590867cd5a71374.jpg",
+                whatsapp: "918052473033",
+                schemeMonths: 11,
+                bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and the 12th month's contribution will be topped up entirely by us.",
+                redemptionText: "Product Restrictions: You cannot buy Gold Coins, Bars, Ginni, or Fine Gold. This scheme is exclusively valid for purchasing Diamond or Gold Jewellery.",
+                penaltyText: "Premature Cash-Out Penalty: Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% will be levied directly against your calculated available ledger balance."
             }
         };
 
@@ -298,6 +313,7 @@
             }
         });
 
+        // Restored standard user authentication mapping logic cleanly
         function handleAdminLogin() {
             const user = document.getElementById('adminUser').value.trim();
             const pass = document.getElementById('adminPass').value.trim();
@@ -521,15 +537,15 @@
 
         function executeApproval(rowId) {
             if(!confirm("Are you sure you want to approve this transaction?")) return;
-            const rowEl = document.getElementById(`row-${rowId}`);
-            rowEl.style.opacity = "0.4";
+            const userRowEl = document.getElementById(`row-${rowId}`);
+            userRowEl.style.opacity = "0.4";
 
             fetch(SCRIPT_URL, {
                 method: "POST",
                 body: JSON.stringify({ action: "approve", row: rowId })
             }).then(r => r.json()).then(success => {
                 if(success) {
-                    rowEl.remove();
+                    userRowEl.remove();
                     alert("Transaction updated to PAID successfully inside Google Sheets!");
                 }
             });
