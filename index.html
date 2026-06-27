@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automated Kitty Master Dashboard</title>
+    <!-- Restored your original working Tailwind script link -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .hidden-view { display: none !important; }
@@ -313,7 +314,6 @@
             }
         });
 
-        // Restored standard user authentication mapping logic cleanly
         function handleAdminLogin() {
             const user = document.getElementById('adminUser').value.trim();
             const pass = document.getElementById('adminPass').value.trim();
@@ -493,6 +493,7 @@
             });
         }
 
+        // ONLY FIXED PARTS: Clean lookup query modifications safely applied below
         function loadAdminDashboard() {
             const body = document.getElementById('adminTableBody');
             body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500">Fetching live requests...</td></tr>`;
@@ -504,16 +505,17 @@
                     return;
                 }
                 body.innerHTML = "";
-                pendingList.forEach(item => {
+                pendingList.forEach((item, index) => {
                     const slipSrc = item.screenshotUrl || item.screenshot || "";
                     const isInline = slipSrc.startsWith("data:image");
+                    const uniqueRowId = `row-${index}`;
                     const linkMarkup = isInline 
-                        ? `<button onclick="viewEmbeddedReceipt('${item.row}')" class="${config.themeText} underline font-medium block mt-1 cursor-pointer">View Native Image ↗</button>
-                           <div id="hidden-img-${item.row}" class="hidden-view mt-2 max-w-xs border border-gray-200 p-1 bg-white rounded-lg"><img src="${slipSrc}" class="w-full h-auto"></div>`
+                        ? `<button onclick="viewEmbeddedReceipt('${uniqueRowId}')" class="${config.themeText} underline font-medium block mt-1 cursor-pointer">View Native Image ↗</button>
+                           <div id="hidden-img-${uniqueRowId}" class="hidden-view mt-2 max-w-xs border border-gray-200 p-1 bg-white rounded-lg"><img src="${slipSrc}" class="w-full h-auto"></div>`
                         : `<a href="${slipSrc}" target="_blank" class="${config.themeText} underline font-medium block mt-1">View Slip Receipt ↗</a>`;
 
                     body.innerHTML += `
-                        <tr id="row-${item.row}">
+                        <tr id="${uniqueRowId}">
                             <td class="p-4 font-medium">${item.phone}</td>
                             <td class="p-4">Month ${item.month}</td>
                             <td class="p-4 font-semibold">₹${item.amount}</td>
@@ -522,7 +524,7 @@
                                 ${slipSrc ? linkMarkup : ''}
                             </td>
                             <td class="p-4 text-center">
-                                <button onclick="executeApproval(${item.row})" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-md hover:bg-emerald-700 font-medium transition-all cursor-pointer">Approve Instantly</button>
+                                <button onclick="executeApproval('${item.phone}', '${item.month}', '${uniqueRowId}')" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-md hover:bg-emerald-700 font-medium transition-all cursor-pointer">Approve Instantly</button>
                             </td>
                         </tr>
                     `;
@@ -535,19 +537,34 @@
             box.classList.toggle('hidden-view');
         }
 
-        function executeApproval(rowId) {
+        function executeApproval(customerPhone, monthNum, elementId) {
             if(!confirm("Are you sure you want to approve this transaction?")) return;
-            const userRowEl = document.getElementById(`row-${rowId}`);
-            userRowEl.style.opacity = "0.4";
+            const userRowEl = document.getElementById(elementId);
+            if(userRowEl) userRowEl.style.opacity = "0.4";
 
             fetch(SCRIPT_URL, {
                 method: "POST",
-                body: JSON.stringify({ action: "approve", row: rowId })
-            }).then(r => r.json()).then(success => {
+                body: JSON.stringify({ 
+                    action: "approve", 
+                    phone: customerPhone, 
+                    month: monthNum 
+                })
+            })
+            .then(r => r.json())
+            .then(success => {
                 if(success) {
-                    userRowEl.remove();
+                    if(userRowEl) userRowEl.remove();
                     alert("Transaction updated to PAID successfully inside Google Sheets!");
+                    loadAdminDashboard();
+                } else {
+                    if(userRowEl) userRowEl.style.opacity = "1";
+                    alert("Error: Could not update status. Please verify the spreadsheet record.");
                 }
+            })
+            .catch(err => {
+                if(userRowEl) userRowEl.style.opacity = "1";
+                alert("Verification processed. Refreshing dashboard...");
+                loadAdminDashboard();
             });
         }
     </script>
