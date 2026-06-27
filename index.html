@@ -1,177 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automated Kitty Master Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        .hidden-view { display: none !important; }
-    </style>
-</head>
-<body class="bg-gray-50 text-gray-800 antialiased">
-
-    <div id="customerView" class="max-w-md mx-auto min-h-screen p-4 flex flex-col justify-between">
-        <div>
-            <header class="text-center py-6">
-                <h1 id="brandTitle" class="text-2xl font-bold text-amber-600 tracking-tight">KITTY SYSTEM</h1>
-                <p id="brandSubtitle" class="text-xs text-gray-400 uppercase tracking-widest mt-1">Live Passbook Ledger</p>
-            </header>
-
-            <!-- Default Welcome Home View -->
-            <div id="defaultHomeView" class="hidden-view space-y-6 text-center">
-                <div class="bg-white rounded-2xl shadow-xs p-4 border border-gray-100 overflow-hidden">
-                    <img src="https://www.psa.gov.in/CMS/web/sites/default/files/inline-images/img%201_0.jpg" alt="Home Image" class="w-full h-auto rounded-xl object-cover mx-auto">
-                </div>
-                <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-xs">
-                    <h4 class="text-sm font-bold text-gray-800">Support Registry Helpdesk</h4>
-                    <p class="text-xs text-gray-500 mt-1">Please use your customized merchant partner link to access your live kitty ledger passbook portal.</p>
-                    <div class="mt-4 pt-3 border-t border-gray-100 flex flex-col items-center justify-center gap-1">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Helpline Contact</span>
-                        <a href="https://wa.me/917827201014" target="_blank" class="text-sm font-semibold text-emerald-600 hover:underline">+91 78272 01014</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Main Interactive Elements Wrapper (Hidden if default home) -->
-            <div id="interactiveContainer">
-                <div class="bg-white rounded-2xl shadow-xs p-6 border border-gray-100 mb-6">
-                    <input type="tel" id="phoneInput" placeholder="Enter Registered Phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none mb-3">
-                    <button onclick="fetchPassbook()" id="fetchBtn" class="w-full text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer">View Passbook</button>
-                </div>
-
-                <div id="passbookContainer" class="hidden-view space-y-6">
-                    <div id="brandCard" class="bg-gradient-to-br text-white rounded-2xl p-6 shadow-xs relative overflow-hidden">
-                        <div class="relative z-10">
-                            <h3 id="custName" class="text-lg font-bold">-</h3>
-                            <p id="custPhone" class="text-xs opacity-75">-</p>
-                            
-                            <div class="mt-4 pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
-                                <div>
-                                    <span class="text-[10px] uppercase opacity-75 block tracking-wider">Monthly Contribution</span>
-                                    <span id="custAmount" class="text-lg font-bold">₹0</span>
-                                </div>
-                                <div class="text-right">
-                                    <span class="text-[10px] uppercase opacity-75 block tracking-wider">Available Balance</span>
-                                    <span id="custLiveBalance" class="text-lg font-bold text-amber-100">₹0</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-2xl p-6 border border-gray-100">
-                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">Tap an unpaid month to submit payment</p>
-                        <div id="gridWrapper" class="grid grid-cols-4 gap-3"></div>
-                    </div>
-
-                    <div class="bg-white rounded-2xl p-4 border border-gray-100 flex items-center justify-between shadow-xs">
-                        <div>
-                            <h4 class="text-xs font-bold text-gray-800">Facing issues with payments?</h4>
-                            <p class="text-[11px] text-gray-400 mt-0.5">Get instant verification or payment support</p>
-                        </div>
-                        <a id="supportLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-xs">
-                            Contact Support
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div id="termsContainer" class="mt-8 bg-amber-50/50 border rounded-2xl p-5 space-y-3">
-                <h4 id="termsHeading" class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
-                    ⚠️ Terms & Conditions
-                </h4>
-                <ul class="text-[11.5px] space-y-2 list-disc pl-4 leading-relaxed opacity-90">
-                    <li id="ruleScheme">Pay regularly for consecutive months based on plan parameters.</li>
-                    <li><strong>Strict Deadline:</strong> Payment is mandatory every single month. Deadlines must be met to keep the bonus eligibility intact.</li>
-                    <li><strong>Verification Proof:</strong> Providing a valid 12-digit UTR code or screenshot proof is mandatory for every transaction. Unauthorized entries will result in automated rejection.</li>
-                    <li id="ruleRedemption">The accumulated amount can only be redeemed at the completion of the tenure via final jewelry purchase.</li>
-                    <li id="rulePenalty">Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction penalty will be levied directly against your calculated available ledger balance.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="adminLoginView" class="hidden-view max-w-sm mx-auto min-h-screen flex flex-col justify-center p-4">
-        <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-            <div class="text-center mb-6">
-                <h2 class="text-xl font-bold text-gray-900">Master Authentication</h2>
-                <p class="text-xs text-gray-400 mt-1">Access restricted to authorized personnel</p>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Username</label>
-                    <input type="text" id="adminUser" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Password</label>
-                    <input type="password" id="adminPass" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
-                </div>
-                <button onclick="handleAdminLogin()" id="adminLoginBtn" class="w-full text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2">Login to Control Panel</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="adminView" class="hidden-view max-w-5xl mx-auto p-6">
-        <header class="flex justify-between items-center border-b border-gray-200 pb-5 mb-6">
-            <div>
-                <h1 id="adminPanelTitle" class="text-2xl font-bold text-gray-900">Master Control</h1>
-                <p class="text-xs text-gray-500">Real-time Automated Dashboard</p>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="loadAdminDashboard()" id="syncAdminBtn" class="text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer">Sync Pending Payments</button>
-                <button onclick="logoutAdmin()" class="bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-gray-200 cursor-pointer">Logout</button>
-            </div>
-        </header>
-
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="text-xs font-semibold text-gray-500 bg-gray-50 border-b border-gray-100">
-                        <th class="p-4">Phone Number</th>
-                        <th class="p-4">Month</th>
-                        <th class="p-4">Amount</th>
-                        <th class="p-4">UTR Reference / Receipt</th>
-                        <th class="p-4 text-center">Action</th>
-                    </tr>
-                </thead>
-                <tbody id="adminTableBody" class="divide-y divide-gray-100 text-sm">
-                    <tr><td colspan="5" class="p-8 text-center text-gray-400 italic">Click "Sync Pending Payments" to clear pending logs.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="paymentModal" class="hidden-view fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-        <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl my-auto">
-            <h3 class="text-lg font-bold text-gray-900 mb-1">Submit Payment</h3>
-            <p id="modalMonthTarget" class="text-xs font-semibold mb-4">Month 2 Tracker</p>
-            
-            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200/60 flex flex-col items-center justify-center mb-4">
-                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Scan QR code to pay via UPI</p>
-                <div class="w-40 h-40 bg-white p-2 rounded-lg border border-gray-100 shadow-xs flex items-center justify-center">
-                    <img id="qrCodeImg" src="" alt="UPI Payment QR Code" class="w-full h-full object-contain">
-                </div>
-            </div>
-
-            <div class="space-y-3 mb-5">
-                <div>
-                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">UTR / Transaction ID</label>
-                    <input type="text" id="utrInput" placeholder="Enter 12-digit UTR Code" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
-                </div>
-                <div>
-                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Payment Slip Screenshot</label>
-                    <input type="file" id="fileInput" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold cursor-pointer">
-                </div>
-            </div>
-
-            <div class="flex gap-2">
-                <button onclick="closePaymentModal()" class="w-1/2 bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-200 cursor-pointer">Cancel</button>
-                <button onclick="submitPaymentData()" id="submitPayBtn" class="w-1/2 text-white py-2.5 rounded-xl text-sm font-medium cursor-pointer">Submit Proof</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<script>
         // ==========================================
         // CENTRALIZED CLIENT MONETIZATION REGISTRY
         // ==========================================
@@ -180,7 +7,8 @@
                 name: "VACHYA JEWELS",
                 expiryDate: "2027-03-15",
                 themeText: "text-amber-600",
-                themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
+                themeBg: "bg-amber-600",
+                themeHover: "hover:bg-amber-700",
                 themeGradient: "from-amber-600 to-amber-700",
                 themeBorder: "border-amber-100",
                 themeContainer: "bg-amber-50/50 text-amber-900/80",
@@ -197,7 +25,8 @@
                 name: "Abhushan Mandir",
                 expiryDate: "2027-04-20",
                 themeText: "text-amber-600",
-                themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
+                themeBg: "bg-amber-600",
+                themeHover: "hover:bg-amber-700",
                 themeGradient: "from-amber-600 to-amber-700",
                 themeBorder: "border-amber-100",
                 themeContainer: "bg-amber-50/50 text-amber-900/80",
@@ -210,30 +39,12 @@
                 redemptionText: "Product Restrictions: You cannot buy Gold Coins, Bars, Ginni, or Fine Gold. This scheme is exclusively valid for purchasing Diamond or Gold Jewellery.",
                 penaltyText: "Premature Cash-Out Penalty: Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% will be levied directly against your calculated available ledger balance."
             },
-             "suman": { 
-                name: "Suman Jewellers",
-                expiryDate: "2027-07-1",
-                themeText: "text-amber-600",
-                themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
-                themeGradient: "from-amber-600 to-amber-700",
-                themeBorder: "border-amber-100",
-                themeContainer: "bg-amber-50/50 text-amber-900/80",
-                themeTextHeading: "text-amber-800",
-                scriptUrl: "https://script.google.com/macros/s/AKfycbwfENBwV3QmeF3fiiA0geOOwibH0jVIerc4filOs-FWdySEEdGzv4ROpEw07ZPochZNmA/exec",
-                qrCode: "https://i.pinimg.com/736x/c3/38/d8/c338d8a5eb932a316590867cd5a71374.jpg",
-                whatsapp: "918052473033",
-                schemeMonths: 11,
-                bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and the 12th month's contribution will be topped up entirely by us.",
-                redemptionText: "Product Restrictions: You cannot buy Gold Coins, Bars, Ginni, or Fine Gold. This scheme is exclusively valid for purchasing Diamond or Gold Jewellery.",
-                penaltyText: "Premature Cash-Out Penalty: Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% will be levied directly against your calculated available ledger balance."
-            },
-            
-        },
             "soni": {
                 name: "SONI JEWELLERS",
                 expiryDate: "2027-01-01",
                 themeText: "text-rose-600",
-                themeBg: "bg-rose-600 hover:bg-rose-700 focus:border-rose-500",
+                themeBg: "bg-rose-600",
+                themeHover: "hover:bg-rose-700",
                 themeGradient: "from-rose-600 to-rose-700",
                 themeBorder: "border-rose-100",
                 themeContainer: "bg-rose-50/50 text-rose-900/80",
@@ -245,13 +56,28 @@
                 bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and get the 12th month's top-up completely free from Soni Jewellers.",
                 redemptionText: "Redemption Terms: Valid and redeemable across all hallmark gold ornaments and premium diamond collections.",
                 penaltyText: "Withdrawal Clause: Premature closure attracts an structural penalty reduction of 15% on the overall accumulated ledger base balance."
+            },
+            "suman": {
+                name: "Suman Jewellers",
+                expiryDate: "2027-07-01",
+                themeText: "text-amber-600",
+                themeBg: "bg-amber-600",
+                themeHover: "hover:bg-amber-700",
+                themeGradient: "from-amber-600 to-amber-700",
+                themeBorder: "border-amber-100",
+                themeContainer: "bg-amber-50/50 text-amber-900/80",
+                themeTextHeading: "text-amber-800",
+                scriptUrl: "https://script.google.com/macros/s/AKfycbwFeNBwV3QmeF3iia0geOOwibH0jVIerc4fi10s-FwdySEEdGzv4ROpEw07ZPochZNmA/exec",
+                qrCode: "https://i.pinimg.com/736x/c3/38/d8/c338d8a5eb932a316590867cd5a71374.jpg",
+                whatsapp: "918052473033",
+                schemeMonths: 11,
+                bonusText: "11+1 Bonus Structure: Pay regularly for 11 consecutive months, and the 12th month's contribution will be topped up entirely by us.",
+                redemptionText: "Product Restrictions: You cannot buy Gold Coins, Bars, Ginni, or Fine Gold. This scheme is exclusively valid for purchasing Diamond or Gold Jewellery.",
+                penaltyText: "Premature Cash-Out Penalty: Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction of 10% will be levied directly against your calculated available ledger balance."
             }
         };
 
-        // Engine Auto-routing Parameter Mapping Setup
         const urlParams = new URLSearchParams(window.location.search);
-        
-        // Check if explicitly assigned parameter values exist
         const hasShopParam = urlParams.has('shop') || urlParams.has('view');
         const routingParam = urlParams.get('shop') || urlParams.get('view') || '';
         const shopKey = routingParam.toLowerCase(); 
@@ -259,11 +85,11 @@
         let config;
         
         if (!hasShopParam || (shopKey !== 'admin' && !SHOP_DATABASES[shopKey])) {
-            // Render Default Home View Layout Configuration safely
             config = {
                 name: "KITTY SYSTEM CONTROL",
                 themeText: "text-amber-600",
-                themeBg: "bg-amber-600 hover:bg-amber-700 focus:border-amber-500",
+                themeBg: "bg-amber-600",
+                themeHover: "hover:bg-amber-700",
                 themeGradient: "from-amber-600 to-amber-700",
                 themeBorder: "border-gray-200",
                 themeContainer: "bg-gray-50/50 text-gray-800",
@@ -282,7 +108,6 @@
             document.getElementById('brandSubtitle').classList.add('hidden-view');
             document.getElementById('defaultHomeView').classList.remove('hidden-view');
         } else {
-            // Fallback routing handling safely when matched parameters are initialized
             const matchedKey = (shopKey === 'admin') ? 'vachya' : shopKey;
             config = SHOP_DATABASES[matchedKey] || SHOP_DATABASES["vachya"];
         }
@@ -293,7 +118,6 @@
         if (config && config.expiryDate && shopKey !== 'admin') {
             const today = new Date();
             const expiry = new Date(config.expiryDate);
-            
             today.setHours(0,0,0,0);
             expiry.setHours(0,0,0,0);
 
@@ -305,12 +129,7 @@
                             <h1 class="text-xl font-bold text-red-600 tracking-tight uppercase">${config.name}</h1>
                             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Portal Suspended</p>
                             <hr class="my-4 border-gray-100">
-                            <p class="text-sm text-gray-600 leading-relaxed">
-                                The annual maintenance package for this live ledger portal has expired. 
-                            </p>
-                            <p class="text-xs text-gray-400 mt-2">
-                                Please contact the system administrator to clear outstanding renewals and restore access.
-                            </p>
+                            <p class="text-sm text-gray-600 leading-relaxed">The annual maintenance package for this live ledger portal has expired.</p>
                             <div class="mt-6 pt-4 border-t border-gray-100 flex flex-col items-center justify-center gap-1">
                                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Support Desk Helpline</span>
                                 <a href="https://wa.me/917827201014" target="_blank" class="text-sm font-semibold text-emerald-600 hover:underline">+91 78272 01014</a>
@@ -322,11 +141,9 @@
             }
         }
 
-        // Assign Configuration Routes & Dynamic Layout Injectors
         const SCRIPT_URL = config.scriptUrl;
         document.title = `${config.name} - Auto-Passbook & Master Control`;
         
-        // Text Content Updates
         document.getElementById('brandTitle').innerText = config.name;
         document.getElementById('adminPanelTitle').innerText = `${config.name} Master Control`;
         document.getElementById('qrCodeImg').src = config.qrCode;
@@ -336,15 +153,15 @@
         document.getElementById('ruleRedemption').innerHTML = `<strong>${config.redemptionText}</strong>`;
         document.getElementById('rulePenalty').innerHTML = `<strong>${config.penaltyText}</strong>`;
 
-        // Dynamic Brand Theme Styles Setup
+        // Safe Element Styling Layout Injectors
         document.getElementById('brandTitle').className = `text-2xl font-bold ${config.themeText} tracking-tight`;
-        document.getElementById('fetchBtn').className = `w-full ${config.themeBg} text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer`;
-        document.getElementById('submitPayBtn').className = `w-1/2 ${config.themeBg} text-white py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer`;
+        document.getElementById('fetchBtn').className = `w-full ${config.themeBg} ${config.themeHover} text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer`;
+        document.getElementById('submitPayBtn').className = `w-1/2 ${config.themeBg} ${config.themeHover} text-white py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer`;
         document.getElementById('brandCard').className = `bg-gradient-to-br ${config.themeGradient} text-white rounded-2xl p-6 shadow-xs relative overflow-hidden`;
         document.getElementById('termsContainer').className = `mt-8 ${config.themeContainer} border ${config.themeBorder} rounded-2xl p-5 space-y-3`;
         document.getElementById('termsHeading').className = `text-xs font-bold ${config.themeTextHeading} uppercase tracking-wider flex items-center gap-1.5`;
-        document.getElementById('adminLoginBtn').className = `w-full ${config.themeBg} text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2`;
-        document.getElementById('syncAdminBtn').className = `${config.themeBg} text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer`;
+        document.getElementById('adminLoginBtn').className = `w-full ${config.themeBg} ${config.themeHover} text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2`;
+        document.getElementById('syncAdminBtn').className = `${config.themeBg} ${config.themeHover} text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer`;
 
         let currentSelectedMonth = null;
         let globalCustomerPhone = null;
@@ -365,7 +182,6 @@
         function handleAdminLogin() {
             const user = document.getElementById('adminUser').value.trim();
             const pass = document.getElementById('adminPass').value.trim();
-
             if (user === "ADMIN" && pass === "ADMIN") {
                 sessionStorage.setItem('adminAuthenticated', 'true');
                 document.getElementById('adminLoginView').classList.add('hidden-view');
@@ -466,14 +282,12 @@
             document.getElementById('paymentModal').classList.remove('hidden-view');
         }
 
-        function closePaymentModal() {
-            document.getElementById('paymentModal').classList.add('hidden-view');
-        }
+        document.addEventListener('submit', e => { e.preventDefault(); });
+        function closePaymentModal() { document.getElementById('paymentModal').classList.add('hidden-view'); }
 
         function submitPaymentData() {
             const utr = document.getElementById('utrInput').value.trim();
             const fileBox = document.getElementById('fileInput').files[0];
-            
             if(!utr && !fileBox) return alert("Please provide either a UTR code or upload a receipt screenshot.");
             
             const submitPayBtn = document.getElementById('submitPayBtn');
@@ -489,17 +303,14 @@
                         const MAX_WIDTH = 450; 
                         let width = img.width;
                         let height = img.height;
-
                         if (width > MAX_WIDTH) {
                             height = Math.round((height * MAX_WIDTH) / width);
                             width = MAX_WIDTH;
                         }
-
                         canvas.width = width;
                         canvas.height = height;
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-
                         const lowResBase64 = canvas.toDataURL('image/jpeg', 0.5);
                         executePostSubmission(utr, lowResBase64);
                     };
@@ -514,7 +325,6 @@
         function executePostSubmission(utrCode, embeddedBase64Str) {
             const submitPayBtn = document.getElementById('submitPayBtn');
             submitPayBtn.innerText = "Updating Ledger...";
-            
             const payload = {
                 action: "submit",
                 id: globalCustomerPhone,
@@ -523,7 +333,6 @@
                 utr: utrCode,
                 screenshotUrl: embeddedBase64Str
             };
-
             fetch(SCRIPT_URL, {
                 method: "POST",
                 body: JSON.stringify(payload)
@@ -544,7 +353,6 @@
         function loadAdminDashboard() {
             const body = document.getElementById('adminTableBody');
             body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500">Fetching live requests...</td></tr>`;
-            
             fetch(`${SCRIPT_URL}?action=getData&id=all_pending`)
             .then(r => r.json()).then(pendingList => {
                 if(pendingList.length === 0) {
@@ -587,7 +395,6 @@
             if(!confirm("Are you sure you want to approve this transaction?")) return;
             const rowEl = document.getElementById(`row-${rowId}`);
             rowEl.style.opacity = "0.4";
-
             fetch(SCRIPT_URL, {
                 method: "POST",
                 body: JSON.stringify({ action: "approve", row: rowId })
@@ -599,5 +406,3 @@
             });
         }
     </script>
-</body>
-</html>
