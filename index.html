@@ -1,4 +1,178 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Kitty Master Dashboard</title>
+    <!-- Secure styling script fallback link to prevent browser freezing -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.0.0-alpha.31/index.js"></script>
+    <style>
+        .hidden-view { display: none !important; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <div id="customerView" class="max-w-md mx-auto min-h-screen p-4 flex flex-col justify-between">
+        <div>
+            <header class="text-center py-6">
+                <h1 id="brandTitle" class="text-2xl font-bold text-amber-600 tracking-tight">KITTY SYSTEM</h1>
+                <p id="brandSubtitle" class="text-xs text-gray-400 uppercase tracking-widest mt-1">Live Passbook Ledger</p>
+            </header>
+
+            <!-- Default Welcome Home View -->
+            <div id="defaultHomeView" class="hidden-view space-y-6 text-center">
+                <div class="bg-white rounded-2xl shadow-xs p-4 border border-gray-100 overflow-hidden">
+                    <img src="https://www.psa.gov.in/CMS/web/sites/default/files/inline-images/img%201_0.jpg" alt="Home Image" class="w-full h-auto rounded-xl object-cover mx-auto">
+                </div>
+                <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-xs">
+                    <h4 class="text-sm font-bold text-gray-800">Support Registry Helpdesk</h4>
+                    <p class="text-xs text-gray-500 mt-1">Please use your customized merchant partner link to access your live kitty ledger passbook portal.</p>
+                    <div class="mt-4 pt-3 border-t border-gray-100 flex flex-col items-center justify-center gap-1">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Helpline Contact</span>
+                        <a href="https://wa.me/917827201014" target="_blank" class="text-sm font-semibold text-emerald-600 hover:underline">+91 78272 01014</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Interactive Elements Wrapper (Hidden if default home) -->
+            <div id="interactiveContainer">
+                <div class="bg-white rounded-2xl shadow-xs p-6 border border-gray-100 mb-6">
+                    <input type="tel" id="phoneInput" placeholder="Enter Registered Phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none mb-3">
+                    <button onclick="fetchPassbook()" id="fetchBtn" class="w-full text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer">View Passbook</button>
+                </div>
+
+                <div id="passbookContainer" class="hidden-view space-y-6">
+                    <div id="brandCard" class="bg-gradient-to-br text-white rounded-2xl p-6 shadow-xs relative overflow-hidden">
+                        <div class="relative z-10">
+                            <h3 id="custName" class="text-lg font-bold">-</h3>
+                            <p id="custPhone" class="text-xs opacity-75">-</p>
+                            
+                            <div class="mt-4 pt-4 border-t border-white/20 grid grid-cols-2 gap-4">
+                                <div>
+                                    <span class="text-[10px] uppercase opacity-75 block tracking-wider">Monthly Contribution</span>
+                                    <span id="custAmount" class="text-lg font-bold">₹0</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] uppercase opacity-75 block tracking-wider">Available Balance</span>
+                                    <span id="custLiveBalance" class="text-lg font-bold text-amber-100">₹0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 border border-gray-100">
+                        <p class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-3">Tap an unpaid month to submit payment</p>
+                        <div id="gridWrapper" class="grid grid-cols-4 gap-3"></div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 border border-gray-100 flex items-center justify-between shadow-xs">
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-800">Facing issues with payments?</h4>
+                            <p class="text-[11px] text-gray-400 mt-0.5">Get instant verification or payment support</p>
+                        </div>
+                        <a id="supportLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-xs">
+                            Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="termsContainer" class="mt-8 bg-amber-50/50 border rounded-2xl p-5 space-y-3">
+                <h4 id="termsHeading" class="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                    ⚠️ Terms & Conditions
+                </h4>
+                <ul class="text-[11.5px] space-y-2 list-disc pl-4 leading-relaxed opacity-90">
+                    <li id="ruleScheme">Pay regularly for consecutive months based on plan parameters.</li>
+                    <li><strong>Strict Deadline:</strong> Payment is mandatory every single month. Deadlines must be met to keep the bonus eligibility intact.</li>
+                    <li><strong>Verification Proof:</strong> Providing a valid 12-digit UTR code or screenshot proof is mandatory for every transaction. Unauthorized entries will result in automated rejection.</li>
+                    <li id="ruleRedemption">The accumulated amount can only be redeemed at the completion of the tenure via final jewelry purchase.</li>
+                    <li id="rulePenalty">Hard cash withdrawals are strictly prohibited. If premature withdrawal is permitted under special circumstances, a deduction penalty will be levied directly against your calculated available ledger balance.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminLoginView" class="hidden-view max-w-sm mx-auto min-h-screen flex flex-col justify-center p-4">
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+            <div class="text-center mb-6">
+                <h2 class="text-xl font-bold text-gray-900">Master Authentication</h2>
+                <p class="text-xs text-gray-400 mt-1">Access restricted to authorized personnel</p>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Username</label>
+                    <input type="text" id="adminUser" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div>
+                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Password</label>
+                    <input type="password" id="adminPass" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
+                </div>
+                <button onclick="handleAdminLogin()" id="adminLoginBtn" class="w-full text-white font-medium py-2.5 rounded-xl text-sm transition-all cursor-pointer mt-2">Login to Control Panel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminView" class="hidden-view max-w-5xl mx-auto p-6">
+        <header class="flex justify-between items-center border-b border-gray-200 pb-5 mb-6">
+            <div>
+                <h1 id="adminPanelTitle" class="text-2xl font-bold text-gray-900">Master Control</h1>
+                <p class="text-xs text-gray-500">Real-time Automated Dashboard</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="loadAdminDashboard()" id="syncAdminBtn" class="text-white text-xs font-semibold px-4 py-2.5 rounded-lg cursor-pointer">Sync Pending Payments</button>
+                <button onclick="logoutAdmin()" class="bg-gray-100 text-gray-600 text-xs font-semibold px-4 py-2.5 rounded-lg hover:bg-gray-200 cursor-pointer">Logout</button>
+            </div>
+        </header>
+
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-xs overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-xs font-semibold text-gray-500 bg-gray-50 border-b border-gray-100">
+                        <th class="p-4">Phone Number</th>
+                        <th class="p-4">Month</th>
+                        <th class="p-4">Amount</th>
+                        <th class="p-4">UTR Reference / Receipt</th>
+                        <th class="p-4 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="adminTableBody" class="divide-y divide-gray-100 text-sm">
+                    <tr><td colspan="5" class="p-8 text-center text-gray-400 italic">Click "Sync Pending Payments" to clear pending logs.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="paymentModal" class="hidden-view fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl my-auto">
+            <h3 class="text-lg font-bold text-gray-900 mb-1">Submit Payment</h3>
+            <p id="modalMonthTarget" class="text-xs font-semibold mb-4">Month 2 Tracker</p>
+            
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-200/60 flex flex-col items-center justify-center mb-4">
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Scan QR code to pay via UPI</p>
+                <div class="w-40 h-40 bg-white p-2 rounded-lg border border-gray-100 shadow-xs flex items-center justify-center">
+                    <img id="qrCodeImg" src="" alt="UPI Payment QR Code" class="w-full h-full object-contain">
+                </div>
+            </div>
+
+            <div class="space-y-3 mb-5">
+                <div>
+                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">UTR / Transaction ID</label>
+                    <input type="text" id="utrInput" placeholder="Enter 12-digit UTR Code" class="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none">
+                </div>
+                <div>
+                    <label class="text-[11px] font-bold text-gray-400 uppercase block mb-1">Payment Slip Screenshot</label>
+                    <input type="file" id="fileInput" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold cursor-pointer">
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="closePaymentModal()" class="w-1/2 bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-200 cursor-pointer">Cancel</button>
+                <button onclick="submitPaymentData()" id="submitPayBtn" class="w-1/2 text-white py-2.5 rounded-xl text-sm font-medium cursor-pointer">Submit Proof</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
         // ==========================================
         // CENTRALIZED CLIENT MONETIZATION REGISTRY
         // ==========================================
@@ -406,3 +580,5 @@
             });
         }
     </script>
+</body>
+</html>
