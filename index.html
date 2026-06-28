@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automated Kitty Master Dashboard</title>
-    <!-- Restored your original working Tailwind script link -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .hidden-view { display: none !important; }
@@ -19,7 +18,6 @@
                 <p id="brandSubtitle" class="text-xs text-gray-400 uppercase tracking-widest mt-1">Live Passbook Ledger</p>
             </header>
 
-            <!-- Default Welcome Home View -->
             <div id="defaultHomeView" class="hidden-view space-y-6 text-center">
                 <div class="bg-white rounded-2xl shadow-xs p-4 border border-gray-100 overflow-hidden">
                     <img src="https://www.psa.gov.in/CMS/web/sites/default/files/inline-images/img%201_0.jpg" alt="Home Image" class="w-full h-auto rounded-xl object-cover mx-auto">
@@ -34,7 +32,6 @@
                 </div>
             </div>
 
-            <!-- Main Interactive Elements Wrapper (Hidden if default home) -->
             <div id="interactiveContainer">
                 <div class="bg-white rounded-2xl shadow-xs p-6 border border-gray-100 mb-6">
                     <input type="tel" id="phoneInput" placeholder="Enter Registered Phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none mb-3">
@@ -342,10 +339,7 @@
             fetchBtn.disabled = true;
 
             fetch(`${SCRIPT_URL}?action=getData&id=${phone}`)
-            .then(r => {
-                if (!r.ok) throw new Error("Invalid backend server target response configuration");
-                return r.json();
-            })
+            .then(r => r.json())
             .then(data => {
                 fetchBtn.innerText = "View Passbook";
                 fetchBtn.disabled = false;
@@ -493,6 +487,7 @@
             });
         }
 
+        // COPIED DIRECTLY FROM YOUR WORKING REPOSITORY ENGINE
         function loadAdminDashboard() {
             const body = document.getElementById('adminTableBody');
             body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500">Fetching live requests...</td></tr>`;
@@ -504,17 +499,17 @@
                     return;
                 }
                 body.innerHTML = "";
-                pendingList.forEach((item, index) => {
+                pendingList.forEach(item => {
                     const slipSrc = item.screenshotUrl || item.screenshot || "";
                     const isInline = slipSrc.startsWith("data:image");
-                    const uniqueRowId = `row-${index}`;
+                    
                     const linkMarkup = isInline 
-                        ? `<button onclick="viewEmbeddedReceipt('${uniqueRowId}')" class="${config.themeText} underline font-medium block mt-1 cursor-pointer">View Native Image ↗</button>
-                           <div id="hidden-img-${uniqueRowId}" class="hidden-view mt-2 max-w-xs border border-gray-200 p-1 bg-white rounded-lg"><img src="${slipSrc}" class="w-full h-auto"></div>`
+                        ? `<button onclick="viewEmbeddedReceipt('${item.row}')" class="${config.themeText} underline font-medium block mt-1 cursor-pointer">View Native Image ↗</button>
+                           <div id="hidden-img-${item.row}" class="hidden-view mt-2 max-w-xs border border-gray-200 p-1 bg-white rounded-lg"><img src="${slipSrc}" class="w-full h-auto"></div>`
                         : `<a href="${slipSrc}" target="_blank" class="${config.themeText} underline font-medium block mt-1">View Slip Receipt ↗</a>`;
 
                     body.innerHTML += `
-                        <tr id="${uniqueRowId}">
+                        <tr id="row-${item.row}">
                             <td class="p-4 font-medium">${item.phone}</td>
                             <td class="p-4">Month ${item.month}</td>
                             <td class="p-4 font-semibold">₹${item.amount}</td>
@@ -523,7 +518,7 @@
                                 ${slipSrc ? linkMarkup : ''}
                             </td>
                             <td class="p-4 text-center">
-                                <button onclick="executeApproval('${item.phone}', '${item.month}', '${uniqueRowId}')" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-md hover:bg-emerald-700 font-medium transition-all cursor-pointer">Approve Instantly</button>
+                                <button onclick="executeApproval('${item.row}')" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-md hover:bg-emerald-700 font-medium transition-all cursor-pointer">Approve Instantly</button>
                             </td>
                         </tr>
                     `;
@@ -533,40 +528,23 @@
 
         function viewEmbeddedReceipt(rowId) {
             const box = document.getElementById(`hidden-img-${rowId}`);
-            box.classList.toggle('hidden-view');
+            if (box) box.classList.toggle('hidden-view');
         }
 
-        // REFINED RESOLUTION: Handles explicit boolean validation structures returned from secure Google Apps webhooks
-        function executeApproval(customerPhone, monthNum, elementId) {
+        // COPIED DIRECTLY FROM YOUR WORKING REPOSITORY ENGINE (Removed loop block)
+        function executeApproval(rowId) {
             if(!confirm("Are you sure you want to approve this transaction?")) return;
-            const userRowEl = document.getElementById(elementId);
-            if(userRowEl) userRowEl.style.opacity = "0.4";
+            const rowEl = document.getElementById(`row-${rowId}`);
+            if(rowEl) rowEl.style.opacity = "0.4";
 
             fetch(SCRIPT_URL, {
                 method: "POST",
-                body: JSON.stringify({ 
-                    action: "approve", 
-                    phone: customerPhone, 
-                    month: monthNum 
-                })
-            })
-            .then(r => r.json())
-            .then(success => {
-                // If script explicitly parses true, update dashboard immediately
-                if(success === true || success === "true") {
-                    if(userRowEl) userRowEl.remove();
+                body: JSON.stringify({ action: "approve", row: rowId })
+            }).then(r => r.json()).then(success => {
+                if(success) {
+                    if(rowEl) rowEl.remove();
                     alert("Transaction updated to PAID successfully inside Google Sheets!");
-                    loadAdminDashboard();
-                } else {
-                    if(userRowEl) userRowEl.style.opacity = "1";
-                    alert("Error: Script executed but sheet mismatch occurred. Ensure you deployed the latest code version inside Google Script dashboard.");
                 }
-            })
-            .catch(err => {
-                // Safe verification check fallback
-                if(userRowEl) userRowEl.style.opacity = "1";
-                alert("Verification request sent. Refreshing panel...");
-                loadAdminDashboard();
             });
         }
     </script>
