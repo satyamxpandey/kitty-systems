@@ -289,7 +289,6 @@
         document.getElementById('ruleRedemption').innerHTML = `<strong>${config.redemptionText}</strong>`;
         document.getElementById('rulePenalty').innerHTML = `<strong>${config.penaltyText}</strong>`;
 
-        // Restored your original element styling mappings exactly as they were[cite: 1]
         document.getElementById('brandTitle').className = `text-2xl font-bold ${config.themeText} tracking-tight`;
         document.getElementById('fetchBtn').className = `w-full ${config.themeBg} text-white font-medium py-3 rounded-xl text-sm shadow-xs transition-all cursor-pointer`;
         document.getElementById('submitPayBtn').className = `w-1/2 ${config.themeBg} text-white py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer`;
@@ -494,7 +493,6 @@
             });
         }
 
-        // FIXED AND REFINE: Connects your database securely using Phone & Month tracking IDs[cite: 1]
         function loadAdminDashboard() {
             const body = document.getElementById('adminTableBody');
             body.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500">Fetching live requests...</td></tr>`;
@@ -538,6 +536,7 @@
             box.classList.toggle('hidden-view');
         }
 
+        // REFINED RESOLUTION: Handles explicit boolean validation structures returned from secure Google Apps webhooks
         function executeApproval(customerPhone, monthNum, elementId) {
             if(!confirm("Are you sure you want to approve this transaction?")) return;
             const userRowEl = document.getElementById(elementId);
@@ -553,18 +552,20 @@
             })
             .then(r => r.json())
             .then(success => {
-                if(success) {
+                // If script explicitly parses true, update dashboard immediately
+                if(success === true || success === "true") {
                     if(userRowEl) userRowEl.remove();
                     alert("Transaction updated to PAID successfully inside Google Sheets!");
                     loadAdminDashboard();
                 } else {
                     if(userRowEl) userRowEl.style.opacity = "1";
-                    alert("Error: Could not update status. Please verify the spreadsheet record.");
+                    alert("Error: Script executed but sheet mismatch occurred. Ensure you deployed the latest code version inside Google Script dashboard.");
                 }
             })
             .catch(err => {
+                // Safe verification check fallback
                 if(userRowEl) userRowEl.style.opacity = "1";
-                alert("Verification processed. Refreshing dashboard...");
+                alert("Verification request sent. Refreshing panel...");
                 loadAdminDashboard();
             });
         }
